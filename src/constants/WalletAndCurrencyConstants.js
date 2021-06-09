@@ -88,6 +88,7 @@ export const CURRENCY_SETTINGS_KEYS = [
  * Use `sortCurrencyInfos` to actually do the sorting.
  */
 export const WALLET_TYPE_ORDER = [
+  'wallet:zcash',
   'wallet:bitcoin',
   'wallet:bitcoincash',
   'wallet:monero',
@@ -150,7 +151,8 @@ export const CURRENCY_PLUGIN_NAMES = {
   XMR: 'monero',
   XRP: 'ripple',
   XTZ: 'tezos',
-  FIRO: 'zcoin'
+  FIRO: 'zcoin',
+  ZEC: 'zcash'
 }
 
 type SpecialCurrencyInfo = {|

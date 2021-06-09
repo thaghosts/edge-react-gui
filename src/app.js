@@ -174,3 +174,5 @@ fetch = (...args: any) => {
 
 // FIO disable changes below
 global.isFioDisabled = false
+// $FlowFixMe
+console.disableYellowBox = true

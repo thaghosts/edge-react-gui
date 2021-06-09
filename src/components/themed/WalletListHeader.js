@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 
 import { toggleAccountBalanceVisibility } from '../../actions/WalletListActions.js'
 import { Fontello } from '../../assets/vector/index.js'
+import { showError } from '../../components/services/AirshipInstance.js'
 import * as Constants from '../../constants/indexConstants.js'
 import s from '../../locales/strings.js'
 import { getDefaultIsoFiat, getIsAccountBalanceVisible } from '../../modules/Settings/selectors.js'
@@ -68,6 +69,21 @@ class WalletListHeaderComponent extends React.PureComponent<Props> {
     }
   }
 
+  createZcashWallet = () => {
+    return global.account
+      .createCurrencyWallet('wallet:zcash', {
+        name: 'myZcash',
+        fiatCurrencyCode: 'iso:USD',
+        keyOptions: {}
+      })
+      .then(edgeWallet => {
+        Actions.popTo(Constants.WALLET_LIST_SCENE)
+      })
+      .catch(error => {
+        showError(error)
+      })
+  }
+
   render() {
     const { sorting, searching, searchText, theme } = this.props
     const styles = getStyles(theme)
@@ -107,7 +123,7 @@ class WalletListHeaderComponent extends React.PureComponent<Props> {
           <View style={styles.headerContainer}>
             <EdgeText style={styles.headerText}>{s.strings.title_wallets}</EdgeText>
             <View key="defaultButtons" style={styles.headerButtonsContainer}>
-              <TouchableOpacity style={styles.addButton} onPress={Actions[Constants.CREATE_WALLET_SELECT_CRYPTO]}>
+              <TouchableOpacity style={styles.addButton} onPress={this.createZcashWallet}>
                 <Ionicon name="md-add" size={theme.rem(1.5)} color={theme.iconTappable} />
               </TouchableOpacity>
               <TouchableOpacity onPress={this.props.openSortModal}>
@@ -154,9 +170,12 @@ const getStyles = cacheStyles((theme: Theme) => ({
 }))
 
 export const WalletListHeader = connect(
-  (state: RootState): StateProps => ({
-    exchangeRates: state.exchangeRates
-  }),
+  (state: RootState): StateProps => {
+    global.account = state.core.account
+    return {
+      exchangeRates: state.exchangeRates
+    }
+  },
   (dispatch: Dispatch): DispatchProps => ({
     toggleAccountBalanceVisibility() {
       dispatch(toggleAccountBalanceVisibility())

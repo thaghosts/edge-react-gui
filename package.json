@@ -111,6 +111,10 @@
     "sha.js": "2.4.11",
     "uuid": "3.3.2"
   },
+  "unusedDeps": {
+    "edge-currency-accountbased": "git://github.com/EdgeApp/edge-currency-accountbased.git#df26347a9f1e04b8e7294fac3c5158edccc974a7",
+    "react-native-zcash": "git://github.com/EdgeApp/react-native-zcash#e063909454eea9294a96920a1b9dc6bfd46cab89"
+  },
   "dependencies": {
     "@bugsnag/react-native": "^7.3.5",
     "@react-native-community/art": "^1.2.0",
@@ -134,7 +138,7 @@
     "disklet": "^0.4.5",
     "edge-components": "^0.0.31",
     "edge-core-js": "^0.17.33",
-    "edge-currency-accountbased": "^0.7.56",
+    "edge-currency-accountbased": "git://github.com/EdgeApp/edge-currency-accountbased.git#5bbeb6038357a493b30a9ec2440c2d5807fdfb69",
     "edge-currency-bitcoin": "^4.9.14",
     "edge-currency-monero": "^0.2.10",
     "edge-exchange-plugins": "^0.11.25",
