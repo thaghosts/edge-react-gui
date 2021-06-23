@@ -4,6 +4,7 @@ import * as React from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Ionicon from 'react-native-vector-icons/Ionicons'
+// import { deriveSpendingKey, deriveViewingKey } from 'react-native-zcash'
 import { connect } from 'react-redux'
 
 import { toggleAccountBalanceVisibility } from '../../actions/WalletListActions.js'
@@ -83,6 +84,16 @@ class WalletListHeaderComponent extends React.PureComponent<Props> {
         showError(error)
       })
   }
+
+  // createZcashWallet = () => {
+  //   return deriveSpendingKey('abdcabdcacd1')
+  //     .then(val => {
+  //       showError(`Success ${val}`)
+  //     })
+  //     .catch(error => {
+  //       showError(error)
+  //     })
+  // }
 
   render() {
     const { sorting, searching, searchText, theme } = this.props
