@@ -34,7 +34,7 @@ type Props = {|
   inputAccessoryViewID?: string,
   keyboardType?: 'default' | 'number-pad' | 'decimal-pad' | 'numeric' | 'email-address' | 'phone-pad', // Defaults to 'default'
   maxLength?: number,
-  onSubmitEditing?: () => void,
+  onSubmitEditing?: (text: string) => void,
   returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send', // Defaults to 'done'
   secureTextEntry?: boolean, // Defaults to 'false'
   testID?: string,
@@ -81,6 +81,7 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
     // TextInput:
     autoFocus = !searchIcon,
     blurOnClear = searchIcon,
+    onSubmitEditing,
     ...inputProps
   } = props
   const theme = useTheme()
@@ -109,6 +110,10 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
   }
   useImperativeHandle(ref, () => ({ blur, clear, focus, isFocused }))
 
+  // Handle Submit
+  const handleSubmitEditing = ({ nativeEvent: { text } }) => {
+    if (onSubmitEditing != null) onSubmitEditing(text)
+  }
   // Captures the width of the placeholder label:
   const [labelWidth, setLabelWidth] = useState(0)
   const handleLabelLayout = event => setLabelWidth(event.nativeEvent.layout.width)
@@ -231,6 +236,7 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
           onBlur={handleBlur}
           onChangeText={onChangeText}
           onFocus={handleFocus}
+          onSubmitEditing={handleSubmitEditing}
         />
       </View>
     </TouchableWithoutFeedback>
