@@ -119,7 +119,6 @@ class WalletListComponent extends React.PureComponent<Props, State> {
                 <WalletListHeader
                   sorting={this.state.sorting}
                   searching={this.state.searching}
-                  searchText={this.state.searchText}
                   openSortModal={this.handleSort}
                   onChangeSearchText={this.handleChangeSearchText}
                   onChangeSearchingState={this.handleChangeSearchingState}

@@ -28,102 +28,58 @@ type StateProps = {
 type Props = OwnProps & StateProps & ThemeProps
 
 type State = {
-  searchTerm: string,
-  selectedFiat: string
+  selectedFiat: string,
+  filteredSupportedFiats: GuiFiatType[]
 }
 
 class CreateWalletSelectFiatComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = {
-      searchTerm: '',
-      selectedFiat: ''
-    }
+    this.state = { selectedFiat: '', filteredSupportedFiats: props.supportedFiats }
   }
 
-  isValidFiatType = () => {
-    const { selectedFiat } = this.state
-    const fiatTypeIndex = this.props.supportedFiats.findIndex(fiatType => fiatType.value === selectedFiat)
-    const isValid = fiatTypeIndex >= 0
-    return isValid
-  }
-
-  getFiatType = (fiatKey: string) => {
-    const fiatTypeIndex = this.props.supportedFiats.findIndex(fiatType => fiatType.value === fiatKey)
-
-    return this.props.supportedFiats[fiatTypeIndex]
-  }
-
-  onNext = () => {
-    const { navigation, route } = this.props
+  onNext = (fiatText: string) => {
+    const { navigation, route, supportedFiats } = this.props
     const { cleanedPrivateKey, selectedWalletType } = route.params
-
-    if (this.isValidFiatType()) {
-      // check if account-based or not
-      const specialCurrencyInfo = getSpecialCurrencyInfo(selectedWalletType.currencyCode)
-      // check if eos-like
-      if (!specialCurrencyInfo.needsAccountNameSetup || cleanedPrivateKey) {
-        navigation.navigate('createWalletName', {
-          selectedWalletType: selectedWalletType,
-          selectedFiat: this.getFiatType(this.state.selectedFiat),
-          cleanedPrivateKey
-        })
-      } else {
-        navigation.navigate('createWalletAccountSetup', {
-          selectedWalletType: selectedWalletType,
-          selectedFiat: this.getFiatType(this.state.selectedFiat)
-        })
-      }
-    } else {
-      Alert.alert(s.strings.create_wallet_invalid_input, s.strings.create_wallet_select_valid_fiat)
+    const selectedFiat = supportedFiats.find(({ value }) => value === fiatText)
+    // Error if the fiat is invalid
+    if (selectedFiat == null) {
+      return Alert.alert(s.strings.create_wallet_invalid_input, s.strings.create_wallet_select_valid_fiat)
     }
-  }
-
-  handleSearchTermChange = (searchTerm: string) => {
-    this.setState({
-      searchTerm
-    })
-  }
-
-  handleSelectFiatType = (item: GuiFiatType) => {
-    const selectedFiat = this.props.supportedFiats.find(type => type.value === item.value)
-
-    if (selectedFiat) {
-      this.setState(
-        {
-          selectedFiat: selectedFiat.value
-        },
-        this.onNext
-      )
+    const { needsAccountNameSetup } = getSpecialCurrencyInfo(selectedWalletType.currencyCode)
+    // Check if eos-like or it's a private key import and continue to the create wallet name scene if it is
+    if (needsAccountNameSetup == null || cleanedPrivateKey != null) {
+      return navigation.navigate('createWalletName', { selectedWalletType, selectedFiat, cleanedPrivateKey })
     }
+    // Continue to the Account Setup screen
+    navigation.navigate('createWalletAccountSetup', { selectedWalletType, selectedFiat })
   }
 
-  renderFiatTypeResult = (data: FlatListItem<GuiFiatType>) => {
+  renderFiatTypeResult = ({ item: { value } }: FlatListItem<GuiFiatType>) => {
     const styles = getStyles(this.props.theme)
-    const fiatCountry = FIAT_COUNTRY[data.item.value]
-    if (!fiatCountry) {
-      return null
-    }
-
+    const fiatCountry = FIAT_COUNTRY[value]
+    if (!fiatCountry) return null
     return (
       <SelectableRow
-        onPress={() => this.handleSelectFiatType(data.item)}
+        onPress={() => this.onNext(value)}
         icon={fiatCountry.logoUrl ? <FastImage source={{ uri: fiatCountry.logoUrl }} style={styles.cryptoTypeLogo} /> : <View style={styles.cryptoTypeLogo} />}
-        title={data.item.value}
-        subTitle={s.strings[`currency_label_${data.item.value}`]}
+        title={value}
+        subTitle={s.strings[`currency_label_${value}`]}
       />
     )
   }
 
-  keyExtractor = (item: GuiFiatType, index: string) => {
-    return item.value
+  keyExtractor = ({ value }: GuiFiatType) => value
+
+  handleChangeText = (searchTerm: string) => {
+    const lowerCaseText = searchTerm.toLowerCase()
+    const { supportedFiats } = this.props
+    const filteredSupportedFiats = supportedFiats.filter(({ label }) => label.toLowerCase().indexOf(lowerCaseText) >= 0)
+    this.setState({ filteredSupportedFiats })
   }
 
   render() {
     const styles = getStyles(this.props.theme)
-    const filteredArray = this.props.supportedFiats.filter(entry => {
-      return entry.label.toLowerCase().indexOf(this.state.searchTerm.toLowerCase()) >= 0
-    })
 
     return (
       <SceneWrapper avoidKeyboard background="theme">
@@ -133,8 +89,7 @@ class CreateWalletSelectFiatComponent extends React.Component<Props, State> {
             <OutlinedTextInput
               autoCorrect={false}
               autoCapitalize="words"
-              onChangeText={this.handleSearchTermChange}
-              value={this.state.searchTerm}
+              onChangeText={this.handleChangeText}
               label={s.strings.fragment_wallets_addwallet_fiat_hint}
               returnKeyType="search"
               marginRem={[0, 1.75]}
@@ -144,7 +99,7 @@ class CreateWalletSelectFiatComponent extends React.Component<Props, State> {
               style={styles.resultList}
               automaticallyAdjustContentInsets={false}
               contentContainerStyle={{ paddingBottom: gap.bottom }}
-              data={filteredArray}
+              data={this.state.filteredSupportedFiats}
               initialNumToRender={30}
               keyboardShouldPersistTaps="handled"
               keyExtractor={this.keyExtractor}

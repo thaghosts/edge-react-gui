@@ -14,14 +14,13 @@ import { PromoCard } from '../themed/PromoCard.js'
 import { WiredBalanceBox } from '../themed/WiredBalanceBox.js'
 import { type OutlinedTextInputRef, OutlinedTextInput } from './OutlinedTextInput.js'
 
-type OwnProps = {
+type OwnProps = {|
   sorting: boolean,
   searching: boolean,
-  searchText: string,
   openSortModal: () => void,
   onChangeSearchText: (search: string) => void,
   onChangeSearchingState: (searching: boolean) => void
-}
+|}
 
 type Props = OwnProps & ThemeProps
 
@@ -48,7 +47,7 @@ class WalletListHeaderComponent extends React.PureComponent<Props> {
   }
 
   render() {
-    const { sorting, searching, searchText, theme } = this.props
+    const { sorting, searching, theme } = this.props
     const styles = getStyles(theme)
 
     return (
@@ -59,7 +58,6 @@ class WalletListHeaderComponent extends React.PureComponent<Props> {
               returnKeyType="search"
               label={s.strings.wallet_list_wallet_search}
               onChangeText={this.handleOnChangeText}
-              value={searchText}
               onFocus={this.handleTextFieldFocus}
               ref={this.textInput}
               marginRem={[0, 0, 1]}

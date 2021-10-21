@@ -46,21 +46,10 @@ type DispatchProps = {
   toggleBalanceVisibility: () => void
 }
 
-type State = {
-  input: string
-}
-
 type Props = OwnProps & StateProps & DispatchProps & ThemeProps
 
-class TransactionListTopComponent extends React.PureComponent<Props, State> {
+class TransactionListTopComponent extends React.PureComponent<Props> {
   textInput: { current: OutlinedTextInputRef | null } = React.createRef()
-
-  constructor(props: Props) {
-    super(props)
-    this.state = {
-      input: ''
-    }
-  }
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.searching === false && this.props.searching === true && this.textInput.current) {
@@ -108,16 +97,8 @@ class TransactionListTopComponent extends React.PureComponent<Props, State> {
     )
   }
 
-  handleOnChangeText = (input: string) => {
-    this.setState({ input })
-  }
-
   handleTextFieldFocus = () => {
     this.props.onChangeSortingState(true)
-  }
-
-  handleTextFieldBlur = () => {
-    this.props.onSearchTransaction(this.state.input)
   }
 
   handleRequest = (): void => {
@@ -135,6 +116,8 @@ class TransactionListTopComponent extends React.PureComponent<Props, State> {
     }
   }
 
+  handleOnChangeText = (input: string) => this.props.onSearchTransaction(input)
+
   render() {
     const { isEmpty, searching, theme } = this.props
     const styles = getStyles(theme)
@@ -149,9 +132,7 @@ class TransactionListTopComponent extends React.PureComponent<Props, State> {
                   returnKeyType="search"
                   label={s.strings.transaction_list_search}
                   onChangeText={this.handleOnChangeText}
-                  value={this.state.input}
                   onFocus={this.handleTextFieldFocus}
-                  onBlur={this.handleTextFieldBlur}
                   ref={this.textInput}
                   marginRem={0}
                   searchIcon

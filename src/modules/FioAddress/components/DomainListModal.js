@@ -38,8 +38,8 @@ type OwnProps = {
 }
 
 type State = {
-  input: string,
   domains: Item[],
+  filteredRecords: Item[],
   prevDomainsJson: string
 }
 
@@ -55,8 +55,8 @@ class DomainListModalComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      input: '',
       domains: [],
+      filteredRecords: [],
       prevDomainsJson: ''
     }
   }
@@ -82,11 +82,10 @@ class DomainListModalComponent extends React.Component<Props, State> {
     return { domains: [...domains, ...userDomainsConverted], prevDomainsJson }
   }
 
-  getItems = () => {
-    const { domains, input } = this.state
-
+  getItems = input => {
+    const { domains } = this.state
     if (input === '') {
-      return [...domains, newDomainItem]
+      return this.setState({ filteredRecords: [...domains, newDomainItem] })
     }
 
     // Search Input Filter
@@ -102,13 +101,11 @@ class DomainListModalComponent extends React.Component<Props, State> {
         }
       }
     }
-    return filteredRecords
+    this.setState({ filteredRecords })
   }
 
-  selectCustom = () => {
-    const { input } = this.state
-    const fioDomain = { ...FIO_DOMAIN_DEFAULT, name: input }
-
+  selectCustom = name => {
+    const fioDomain = { ...FIO_DOMAIN_DEFAULT, name }
     this.props.bridge.resolve(fioDomain)
   }
 
@@ -146,11 +143,10 @@ class DomainListModalComponent extends React.Component<Props, State> {
   }
 
   keyExtractor = (item: Item, index: number) => index.toString()
-  onSearchFilterChange = (input: string) => this.setState({ input })
+
   render() {
     const { bridge, theme } = this.props
-    const { input } = this.state
-    const items = this.getItems()
+    const { filteredRecords } = this.state
     return (
       <ThemedModal bridge={bridge} onCancel={() => bridge.resolve(null)} paddingRem={[1, 0]}>
         <ModalTitle center paddingRem={[0, 3, 1]}>
@@ -162,14 +158,20 @@ class DomainListModalComponent extends React.Component<Props, State> {
             returnKeyType="search"
             autoCapitalize="none"
             label={s.strings.fio_domain_label}
-            onChangeText={this.onSearchFilterChange}
+            onChangeText={this.getItems}
             onSubmitEditing={this.selectCustom}
-            value={input}
+            value=""
             marginRem={[0, 1]}
             searchIcon
           />
         </View>
-        <FlatList data={items} initialNumToRender={24} keyboardShouldPersistTaps="handled" keyExtractor={this.keyExtractor} renderItem={this.renderItem} />
+        <FlatList
+          data={filteredRecords}
+          initialNumToRender={24}
+          keyboardShouldPersistTaps="handled"
+          keyExtractor={this.keyExtractor}
+          renderItem={this.renderItem}
+        />
         <ModalCloseArrow onPress={() => bridge.resolve(null)} />
       </ThemedModal>
     )

@@ -26,17 +26,17 @@ type StateProps = {
 type Props = StateProps & OwnProps & ThemeProps
 
 type State = {
-  selectedWalletType: string,
-  searchTerm: string
+  createWalletArray: CreateWalletType[],
+  filteredArray: CreateWalletType[]
 }
 
 class CreateWalletSelectCryptoComponent extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
-    this.state = {
-      selectedWalletType: '',
-      searchTerm: ''
-    }
+    const { account } = this.props
+    // Sort and filter the available types:
+    const createWalletArray = getCreateWalletTypes(account)
+    this.state = { createWalletArray, filteredArray: createWalletArray }
   }
 
   getWalletType(walletType: string): CreateWalletType | void {
@@ -44,80 +44,48 @@ class CreateWalletSelectCryptoComponent extends React.Component<Props, State> {
     return getCreateWalletTypes(account).find(type => type.walletType === walletType)
   }
 
-  onNext = () => {
+  onPress = walletType => {
     const { navigation } = this.props
-    const { selectedWalletType } = this.state
-
     // Find the details about the wallet type:
-    const createWalletType = this.getWalletType(selectedWalletType)
-    if (createWalletType == null) {
-      Alert.alert(s.strings.create_wallet_invalid_input, s.strings.create_wallet_select_valid_crypto)
-      return
+    const selectedWalletType = this.getWalletType(walletType)
+    if (selectedWalletType == null) {
+      return Alert.alert(s.strings.create_wallet_invalid_input, s.strings.create_wallet_select_valid_crypto)
     }
-
     // Does this wallet type support private key import?
-    const { currencyCode } = createWalletType
+    const { currencyCode } = selectedWalletType
     const { isImportKeySupported } = getSpecialCurrencyInfo(currencyCode)
-
-    // Go to the next screen:
-    if (isImportKeySupported) {
-      navigation.navigate('createWalletChoice', {
-        selectedWalletType: createWalletType
-      })
-    } else {
-      navigation.navigate('createWalletSelectFiat', {
-        selectedWalletType: createWalletType
-      })
-    }
+    // Go to the import key scene screen:
+    if (isImportKeySupported) return navigation.navigate('createWalletChoice', { selectedWalletType })
+    // Go to the fiat selection screen:
+    navigation.navigate('createWalletSelectFiat', { selectedWalletType })
   }
 
-  handleSearchTermChange = (searchTerm: string): void => {
-    this.setState({
-      searchTerm
-    })
-  }
-
-  handleSelectWalletType = (item: CreateWalletType): void => {
-    this.setState({ selectedWalletType: item.walletType }, this.onNext)
-  }
-
-  renderWalletTypeResult = (data: FlatListItem<CreateWalletType>) => {
-    const { theme } = this.props
-    const { symbolImageDarkMono, currencyCode } = data.item
-    const styles = getStyles(theme)
-
-    // Ripple hack:
-    let { currencyName } = data.item
-    if (currencyCode.toLowerCase() === 'xrp') currencyName = 'Ripple'
-
-    return (
-      <SelectableRow
-        onPress={() => this.handleSelectWalletType(data.item)}
-        icon={symbolImageDarkMono ? <FastImage source={{ uri: symbolImageDarkMono }} style={styles.cryptoTypeLogo} /> : <View style={styles.cryptoTypeLogo} />}
-        title={currencyCode}
-        subTitle={currencyName}
-      />
-    )
-  }
-
-  keyExtractor = (item: CreateWalletType, index: number): string => {
-    return item.walletType
-  }
-
-  render() {
-    const { account } = this.props
-    const { searchTerm } = this.state
+  handleChangeText = searchTerm => {
     const lowerSearch = searchTerm.toLowerCase()
-    const styles = getStyles(this.props.theme)
-
-    // Sort and filter the available types:
-    const sortedArray = getCreateWalletTypes(account)
-    const filteredArray = sortedArray.filter(
+    const { createWalletArray } = this.state
+    const filteredArray = createWalletArray.filter(
       entry =>
         !SPECIAL_CURRENCY_INFO[entry.currencyCode]?.keysOnlyMode &&
         (entry.currencyName.toLowerCase().indexOf(lowerSearch) >= 0 || entry.currencyCode.toLowerCase().indexOf(lowerSearch) >= 0)
     )
+    this.setState({ filteredArray })
+  }
 
+  renderWalletTypeResult = ({ item }: FlatListItem<CreateWalletType>) => {
+    const { theme } = this.props
+    const { symbolImageDarkMono, currencyCode, walletType, currencyName } = item
+    const { cryptoTypeLogo } = getStyles(theme)
+    const icon = symbolImageDarkMono ? <FastImage source={{ uri: symbolImageDarkMono }} style={cryptoTypeLogo} /> : <View style={cryptoTypeLogo} />
+    // Ripple hack:
+    const subTitle = currencyCode.toLowerCase() === 'xrp' ? 'Ripple' : currencyName
+
+    return <SelectableRow onPress={() => this.onPress(walletType)} icon={icon} title={currencyCode} subTitle={subTitle} />
+  }
+
+  keyExtractor = ({ walletType }: CreateWalletType): string => walletType
+
+  render() {
+    const styles = getStyles(this.props.theme)
     return (
       <SceneWrapper avoidKeyboard background="theme">
         {gap => (
@@ -126,8 +94,7 @@ class CreateWalletSelectCryptoComponent extends React.Component<Props, State> {
             <OutlinedTextInput
               autoCorrect={false}
               autoCapitalize="words"
-              onChangeText={this.handleSearchTermChange}
-              value={this.state.searchTerm}
+              onChangeText={this.handleChangeText}
               label={s.strings.create_wallet_choose_crypto}
               returnKeyType="search"
               marginRem={[0, 1.75]}
@@ -137,7 +104,7 @@ class CreateWalletSelectCryptoComponent extends React.Component<Props, State> {
               style={styles.resultList}
               automaticallyAdjustContentInsets={false}
               contentContainerStyle={{ paddingBottom: gap.bottom }}
-              data={filteredArray}
+              data={this.state.filteredArray}
               initialNumToRender={12}
               keyboardShouldPersistTaps="handled"
               keyExtractor={this.keyExtractor}

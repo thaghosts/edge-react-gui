@@ -5,7 +5,6 @@ import { FlatList, Keyboard } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import { useFilter } from '../../hooks/useFilter.js'
-import { useState } from '../../types/reactHooks.js'
 import { ModalCloseArrow, ModalTitle } from '../themed/ModalParts.js'
 import { OutlinedTextInput } from '../themed/OutlinedTextInput.js'
 import { ThemedModal } from '../themed/ThemedModal.js'
@@ -49,12 +48,10 @@ export function ListModal<T>({
   closeArrow = true,
   ...textProps
 }: Props<T>) {
-  const [text, setText] = useState<string | void>(initialValue)
   const [filteredRows, setFilteredRows] = useFilter(rowsData, rowDataFilter)
   const renderItem = ({ item }) => (rowComponent ? rowComponent(item) : null)
   const handleCancel = () => bridge.resolve()
   const handleChangeText = (text: string) => {
-    setText(text)
     setFilteredRows(text)
   }
 
@@ -72,7 +69,7 @@ export function ListModal<T>({
           returnKeyType="search"
           marginRem={[1, 0.5]}
           onChangeText={handleChangeText}
-          value={text ?? ''}
+          value={initialValue}
           // Outlined Text input props:
           {...textProps}
         />
