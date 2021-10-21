@@ -11,7 +11,7 @@ import { cacheStyles, useTheme } from '../services/ThemeContext.js'
 
 type Props = {|
   // Contents:
-  value: string,
+  value?: string, // Defaults to ''
   error?: string,
   label?: string,
 
@@ -64,7 +64,7 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
     // Contents:
     error,
     label,
-    value,
+    value = '',
 
     // Appearance:
     clearIcon = true,
@@ -87,10 +87,6 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
-  const hasError = error != null
-  const hasLabel = label != null
-  const hasValue = value !== ''
-
   // Imperative methods:
   const inputRef = useRef<TextInput>(null)
   function blur(): void {
@@ -110,10 +106,23 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
   }
   useImperativeHandle(ref, () => ({ blur, clear, focus, isFocused }))
 
+  // Store and handle our own text state
+  const [text, setText] = useState(value)
+  const handleChangeText = newValue => {
+    setText(newValue)
+    if (onChangeText != null) onChangeText(newValue)
+  }
+
   // Handle Submit
   const handleSubmitEditing = ({ nativeEvent: { text } }) => {
     if (onSubmitEditing != null) onSubmitEditing(text)
   }
+
+  // Setup flags
+  const hasText = text !== ''
+  const hasError = error != null
+  const hasLabel = label != null
+
   // Captures the width of the placeholder label:
   const [labelWidth, setLabelWidth] = useState(0)
   const handleLabelLayout = event => setLabelWidth(event.nativeEvent.layout.width)
@@ -185,14 +194,14 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
     borderColor: getColor(errorAnimation.value, focusAnimation.value)
   }))
   const topStyle = useAnimatedStyle(() => {
-    const labelProgress = hasLabel ? (hasValue ? 1 : focusAnimation.value) : 0
+    const labelProgress = hasLabel ? (hasText ? 1 : focusAnimation.value) : 0
     return {
       borderColor: getColor(errorAnimation.value, focusAnimation.value),
       left: labelLeft + labelProgress * (2 * labelPadding + labelWidth * (1 - labelShrink))
     }
   })
   const labelStyle = useAnimatedStyle(() => {
-    const labelProgress = hasValue ? 1 : focusAnimation.value
+    const labelProgress = hasText ? 1 : focusAnimation.value
     return {
       color: getColor(errorAnimation.value, focusAnimation.value),
       transform: [{ translateY: labelProgress * translateY }, { translateX: labelProgress * translateX }, { scale: 1 - labelProgress * labelShrink }]
@@ -218,7 +227,7 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
           {error}
         </Animated.Text>
         {!searchIcon ? null : <AntDesignIcon name="search1" style={styles.searchIcon} />}
-        {!clearIcon || !hasValue ? null : (
+        {!clearIcon || !hasText ? null : (
           <TouchableOpacity style={styles.clearTapArea} onPress={() => clear()}>
             <AntDesignIcon name="close" style={styles.clearIcon} />
           </TouchableOpacity>
@@ -231,10 +240,10 @@ const OutlinedTextInputComponent = React.forwardRef((props: Props, ref) => {
           selectionColor={hasError ? theme.dangerText : theme.iconTappable}
           style={[styles.textInput, textInputStyle]}
           textAlignVertical="top"
-          value={value}
+          value={text}
           // Callbacks:
           onBlur={handleBlur}
-          onChangeText={onChangeText}
+          onChangeText={handleChangeText}
           onFocus={handleFocus}
           onSubmitEditing={handleSubmitEditing}
         />
