@@ -90,6 +90,7 @@ export const CURRENCY_SETTINGS_KEYS = [
  * Use `sortCurrencyInfos` to actually do the sorting.
  */
 export const WALLET_TYPE_ORDER = [
+  'wallet:zcash',
   'wallet:bitcoin',
   'wallet:bitcoincash',
   'wallet:monero',
@@ -156,7 +157,8 @@ export const CURRENCY_PLUGIN_NAMES = {
   XMR: 'monero',
   XRP: 'ripple',
   XTZ: 'tezos',
-  FIRO: 'zcoin'
+  FIRO: 'zcoin',
+  ZEC: 'zcash'
 }
 
 type SpecialCurrencyInfo = {|
@@ -193,7 +195,10 @@ type SpecialCurrencyInfo = {|
   noChangeMiningFee?: boolean,
   noMaxSpend?: boolean,
   keysOnlyMode?: boolean,
-  isPrivateKeySweepable?: boolean
+  isPrivateKeySweepable?: boolean,
+
+  // Platform
+  androidOnly?: boolean
 |}
 
 export const getSpecialCurrencyInfo = (currencyCode: string): SpecialCurrencyInfo => {
@@ -453,6 +458,10 @@ export const SPECIAL_CURRENCY_INFO: {
       identifierName: s.strings.unique_identifier_memo,
       keyboardType: 'default'
     }
+  },
+  ZEC: {
+    noChangeMiningFee: true,
+    androidOnly: true
   }
 }
 

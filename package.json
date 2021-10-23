@@ -85,6 +85,10 @@
     "sha.js": "2.4.11",
     "uuid": "3.3.2"
   },
+  "unusedDeps": {
+    "edge-currency-accountbased": "git://github.com/EdgeApp/edge-currency-accountbased.git#df26347a9f1e04b8e7294fac3c5158edccc974a7",
+    "react-native-zcash": "git://github.com/EdgeApp/react-native-zcash#e063909454eea9294a96920a1b9dc6bfd46cab89"
+  },
   "dependencies": {
     "@bugsnag/react-native": "^7.3.5",
     "@react-native-community/art": "^1.2.0",
@@ -108,7 +112,6 @@
     "detox": "^18.10.0",
     "disklet": "^0.4.5",
     "edge-core-js": "^0.18.9",
-    "edge-currency-accountbased": "^0.8.0",
     "edge-currency-bitcoin": "^4.9.18",
     "edge-currency-monero": "^0.3.3",
     "edge-exchange-plugins": "^0.11.37",
@@ -116,6 +119,7 @@
     "edge-plugin-bity": "https://github.com/EdgeApp/edge-plugin-bity.git#f04ee29c23bf5621f87dedb6d2fb1c83a18781bc",
     "edge-plugin-simplex": "https://github.com/EdgeApp/edge-plugin-simplex.git#efb0f2280192894e4c24e28e297d0e466f2d333b",
     "edge-plugin-wyre": "https://github.com/EdgeApp/edge-plugin-wyre.git#5aa2379dbd4045b8a514427b442bd59ca57c21b0",
+    "edge-currency-accountbased": "git://github.com/EdgeApp/edge-currency-accountbased.git#3658920da78fd519915bfa632f83ec25a2983602",
     "lodash": "^4.17.19",
     "qrcode-generator": "^1.4.4",
     "react": "17.0.1",
@@ -160,6 +164,7 @@
     "react-native-webview": "^10.2.3",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
+    "react-native-zcash": "git://github.com/EdgeApp/react-native-zcash#fd7dc6431bf44acbd4d4f5914ff154062fb075e8",
     "redux-flipper": "^1.4.2",
     "redux-thunk": "^2.3.0",
     "rn-qr-generator": "^1.1.7",

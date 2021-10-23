@@ -1,8 +1,9 @@
 // @flow
 
 import { type EdgeAccount, type EdgeCurrencyInfo } from 'edge-core-js'
+import { Platform } from 'react-native'
 
-import { IMAGE_SERVER_URL, WALLET_TYPE_ORDER } from '../constants/WalletAndCurrencyConstants.js'
+import { IMAGE_SERVER_URL, SPECIAL_CURRENCY_INFO, WALLET_TYPE_ORDER } from '../constants/WalletAndCurrencyConstants.js'
 import { type CreateWalletType } from '../types/types.js'
 
 /**
@@ -75,6 +76,8 @@ export function getCreateWalletTypes(account: EdgeAccount): CreateWalletType[] {
   const out: CreateWalletType[] = []
   for (const currencyInfo of infos) {
     const { currencyCode } = currencyInfo
+
+    if (Platform.OS === 'ios' && SPECIAL_CURRENCY_INFO[currencyCode]?.androidOnly) continue
     if (currencyInfo.pluginId === 'fio' && global.isFioDisabled) continue // FIO disable changes
     if (currencyInfo.pluginId === 'bitcoin') {
       out.push({
