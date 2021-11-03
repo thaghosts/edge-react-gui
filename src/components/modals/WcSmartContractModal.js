@@ -9,8 +9,9 @@ import { sprintf } from 'sprintf-js'
 
 import s from '../../locales/strings.js'
 import { Slider } from '../../modules/UI/components/Slider/Slider.js'
+import { getDisplayDenominationFull } from '../../selectors/DenominationSelectors.js'
 import { useSelector } from '../../types/reactRedux.js'
-import { hexToDecimal, isHex, removeHexPrefix } from '../../util/utils.js'
+import { DECIMAL_PRECISION, hexToDecimal, isHex, removeHexPrefix, zeroString } from '../../util/utils.js'
 import { showError } from '../services/AirshipInstance.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import Alert from '../themed/Alert'
@@ -37,34 +38,54 @@ export const WcSmartContractModal = (props: Props) => {
   const theme = useTheme()
   const styles = getStyles(theme)
   const dAppName: string = dApp.peerMeta.name ?? 'no name'
+  const icon: string = dApp.peerMeta.icons[0]
 
-  let amountCrypto
-  let networkFeeCrypto
-  const params = payload.params[0]
-  if (typeof payload === 'object') {
-    if (isHex(removeHexPrefix(params?.value ?? ''))) {
-      amountCrypto = hexToDecimal(params.value)
-    }
-    if (isHex(removeHexPrefix(params?.gas ?? '')) && isHex(removeHexPrefix(params?.gasPrice ?? ''))) {
-      networkFeeCrypto = bns.mul(hexToDecimal(params.gas), hexToDecimal(params.gasPrice))
-    }
-  }
-  const totalCrypto = bns.mul(bns.add(amountCrypto ?? '0', networkFeeCrypto ?? '0'), '-1')
-
-  const { feeCurrencyStr, isInsufficientBal, isoFiatCurrencyCode, walletImageUri, currencyCode, walletName, wallet } = useSelector(state => {
+  const {
+    feeCurrencyStr,
+    totalCrypto,
+    networkFeeCrypto,
+    amountCrypto,
+    isInsufficientBal,
+    isoFiatCurrencyCode,
+    walletImageUri,
+    currencyCode,
+    walletName,
+    wallet
+  } = useSelector(state => {
     const { currencyWallets } = state.core.account
     const wallet = currencyWallets[walletId]
+    const walletName = wallet.name
     const guiWallet = state.ui.wallets.byId[walletId]
     const currencyCode = guiWallet.currencyCode
     const { isoFiatCurrencyCode } = guiWallet
-    const walletName = guiWallet.name
+
     const walletImageUri = getCurrencyIcon(guiWallet.currencyCode, currencyCode).symbolImage
-    const isInsufficientBal = -1 * parseFloat(amountCrypto) + parseFloat(networkFeeCrypto) > parseFloat(guiWallet.primaryNativeBalance)
+    const multiplier = getDisplayDenominationFull(state, currencyCode).multiplier
+
+    let amountCrypto
+    let networkFeeCrypto
+    const params = payload.params[0]
+    if (typeof payload === 'object') {
+      if (isHex(removeHexPrefix(params?.value ?? ''))) {
+        amountCrypto = hexToDecimal(params.value)
+        amountCrypto = bns.div(amountCrypto, multiplier, DECIMAL_PRECISION)
+      }
+      if (isHex(removeHexPrefix(params?.gas ?? '')) && isHex(removeHexPrefix(params?.gasPrice ?? ''))) {
+        networkFeeCrypto = bns.mul(hexToDecimal(params.gas), hexToDecimal(params.gasPrice))
+        networkFeeCrypto = bns.div(networkFeeCrypto, multiplier, DECIMAL_PRECISION)
+      }
+    }
+    const totalCrypto = bns.mul(bns.add(bns.abs(amountCrypto ?? '0'), networkFeeCrypto ?? '0'), '-1')
+
     const feeCurrencyStr = `${guiWallet.currencyNames[currencyCode]} (${currencyCode})`
+    const isInsufficientBal = -1 * parseFloat(amountCrypto) + parseFloat(networkFeeCrypto) > parseFloat(guiWallet.primaryNativeBalance)
 
     return {
       currencyCode,
       feeCurrencyStr,
+      amountCrypto,
+      networkFeeCrypto,
+      totalCrypto,
       isInsufficientBal,
       isoFiatCurrencyCode,
       walletImageUri,
@@ -109,7 +130,7 @@ export const WcSmartContractModal = (props: Props) => {
   const slider = isInsufficientBal ? null : (
     <Slider parentStyle={styles.slider} onSlidingComplete={handleSubmit} disabledText={s.strings.send_confirmation_slide_to_confirm} />
   )
-  const maxTotalAmount = -1 * parseFloat(amountCrypto) + parseFloat(networkFeeCrypto) /* normalize positive fee vs negative amount */
+
   return (
     <ThemedModal
       bridge={bridge}
@@ -124,7 +145,7 @@ export const WcSmartContractModal = (props: Props) => {
       </ModalTitle>
       <View style={modalHeight}>
         {renderWarning()}
-        {amountCrypto != null && (
+        {!zeroString(amountCrypto) && amountCrypto != null && (
           <CryptoFiatAmountTile
             title={s.strings.string_amount}
             cryptoAmount={amountCrypto}
@@ -132,13 +153,15 @@ export const WcSmartContractModal = (props: Props) => {
             isoFiatCurrencyCode={isoFiatCurrencyCode}
           />
         )}
-        <IconTile title={s.strings.wc_smartcontract_wallet} iconUri={walletImageUri}>
-          <EdgeText>{walletName}</EdgeText>
-        </IconTile>
-        <IconTile title={s.strings.wc_smartcontract_dapp} iconUri={getCurrencyIcon('ETH', 'AAVE').symbolImage}>
+        {walletName != null && (
+          <IconTile title={s.strings.wc_smartcontract_wallet} iconUri={walletImageUri}>
+            <EdgeText>{walletName}</EdgeText>
+          </IconTile>
+        )}
+        <IconTile title={s.strings.wc_smartcontract_dapp} iconUri={icon}>
           <EdgeText>{dAppName}</EdgeText>
         </IconTile>
-        {networkFeeCrypto != null && (
+        {!zeroString(networkFeeCrypto) && networkFeeCrypto != null && (
           <CryptoFiatAmountTile
             title={s.strings.wc_smartcontract_network_fee}
             cryptoAmount={networkFeeCrypto}
@@ -146,10 +169,10 @@ export const WcSmartContractModal = (props: Props) => {
             isoFiatCurrencyCode={isoFiatCurrencyCode}
           />
         )}
-        {totalCrypto !== '0' && (
+        {!zeroString(totalCrypto) && (
           <FiatAmountTile
             title={s.strings.wc_smartcontract_max_total}
-            cryptoAmount={maxTotalAmount}
+            cryptoAmount={totalCrypto}
             cryptoCurrencyCode={currencyCode}
             isoFiatCurrencyCode={isoFiatCurrencyCode}
           />
