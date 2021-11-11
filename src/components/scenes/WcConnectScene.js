@@ -34,6 +34,7 @@ type Props = {
 export const WcConnectScene = (props: Props) => {
   const { navigation } = props
   const [selectedWallet, setSelectedWallet] = useState({ walletId: '', currencyCode: '' })
+  const [connected, setConnected] = useState(false)
   const theme = useTheme()
   const styles = getStyles(theme)
   const { wcQRUri } = props.route.params
@@ -60,6 +61,7 @@ export const WcConnectScene = (props: Props) => {
   const handleConnect = async () => {
     try {
       await wallet.otherMethods.wcConnect({ uri: wcQRUri })
+      setConnected(true)
       Airship.show(bridge => <FlashNotification bridge={bridge} message={s.strings.wc_confirm_return_to_browser} onPress={() => {}} />)
       navigation.navigate('wcConnections')
     } catch (error) {
@@ -100,6 +102,9 @@ export const WcConnectScene = (props: Props) => {
   useEffect(() => {
     if (selectedWallet.walletId === '' && selectedWallet.currencyCode === '') {
       showWalletListModal()
+    }
+    return () => {
+      if (!connected && wallet?.otherMethods?.wcDisconnect != null) wallet.otherMethods.wcDisconnect(wcQRUri)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWallet.walletId, selectedWallet.currencyCode])
