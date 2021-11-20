@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Image, View } from 'react-native'
 
 import s from '../../../locales/strings'
-import FormattedText from '../../../modules/UI/components/FormattedText/FormattedText.ui.js'
 import { getDisplayDenominationFull, getPrimaryExchangeDenomination } from '../../../selectors/DenominationSelectors.js'
 import { getExchangeRate, getSelectedWallet } from '../../../selectors/WalletSelectors.js'
 import { useSelector } from '../../../types/reactRedux.js'
@@ -13,6 +12,7 @@ import { getCurrencyIcon } from '../../../util/CurrencyInfoHelpers.js'
 import { getDenomFromIsoCode, zeroString } from '../../../util/utils.js'
 import { ExchangeRate } from '../../common/ExchangeRate.js'
 import { type Theme, cacheStyles, useTheme } from '../../services/ThemeContext'
+import { EdgeText } from '../EdgeText'
 
 export function ControlPanelRateComponent() {
   const theme = useTheme()
@@ -71,45 +71,53 @@ export function ControlPanelRateComponent() {
   }
 
   return (
-    <View style={styles.container}>
-      {!!currencyLogo && <Image style={styles.image} source={{ uri: currencyLogo }} />}
-      {!zeroString(exchangeRate) ? (
-        <ExchangeRate
-          primaryInfo={primaryCurrencyInfo}
-          secondaryInfo={secondaryCurrencyInfo}
-          secondaryDisplayAmount={secondaryToPrimaryRatio}
-          style={styles.exchangeRateText}
-        />
-      ) : (
-        <FormattedText style={styles.exchangeRateText}>{s.strings.exchange_rate_loading_singular}</FormattedText>
-      )}
+    <View style={styles.rowContainer}>
+      <View style={styles.rowIconContainer}>{!!currencyLogo && <Image style={styles.icon} source={{ uri: currencyLogo }} />}</View>
+      <View style={styles.rowBodyContainer}>
+        {!zeroString(exchangeRate) ? (
+          <ExchangeRate
+            primaryInfo={primaryCurrencyInfo}
+            secondaryInfo={secondaryCurrencyInfo}
+            secondaryDisplayAmount={secondaryToPrimaryRatio}
+            style={styles.text}
+          />
+        ) : (
+          <EdgeText style={styles.text}>{s.strings.exchange_rate_loading_singular}</EdgeText>
+        )}
+      </View>
     </View>
   )
 }
 
 const getStyles = cacheStyles((theme: Theme) => ({
-  container: {
+  rowContainer: {
+    display: 'flex',
+    height: theme.rem(2.75),
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    display: 'flex',
-    alignSelf: 'stretch',
-    marginTop: theme.rem(1.5),
-    marginBottom: theme.rem(1.5),
-    marginLeft: theme.rem(0.5),
     alignItems: 'center'
   },
-  image: {
-    width: theme.rem(1.5),
-    height: theme.rem(1.5),
-    alignItems: 'center',
+  rowIconContainer: {
+    display: 'flex',
     justifyContent: 'center',
-    marginRight: theme.rem(1),
-    marginLeft: theme.rem(-0.25)
+    alignItems: 'center',
+    height: theme.rem(3),
+    width: theme.rem(3),
+    marginLeft: theme.rem(0.25)
   },
-  exchangeRateText: {
-    fontSize: theme.rem(1),
+  rowBodyContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexGrow: 1
+  },
+  text: {
     fontFamily: theme.fontFaceMedium,
-    color: theme.primaryText,
     marginLeft: theme.rem(0.5)
+  },
+  icon: {
+    height: theme.rem(1.5),
+    width: theme.rem(1.5)
   }
 }))
