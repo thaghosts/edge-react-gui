@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-raw-text */
 // @flow
 
 import { type EdgeUserInfo } from 'edge-core-js'
@@ -17,18 +18,21 @@ import { Fontello } from '../../../assets/vector'
 import { FIO_ADDRESS_LIST, FIO_REQUEST_LIST, SCAN, SETTINGS_OVERVIEW_TAB, TERMS_OF_SERVICE, WALLET_CONNECT } from '../../../constants/SceneKeys'
 import { EDGE_URL, getPrivateKeySweepableCurrencies } from '../../../constants/WalletAndCurrencyConstants.js'
 import s from '../../../locales/strings'
+import { getDisplayDenomination } from '../../../selectors/DenominationSelectors'
+import { getSelectedWallet } from '../../../selectors/WalletSelectors'
 import { useEffect, useState } from '../../../types/reactHooks'
 import { useDispatch, useSelector } from '../../../types/reactRedux'
 import { type NavigationProp, type ParamList, Actions } from '../../../types/routerTypes.js'
+import { getCurrencyIcon } from '../../../util/CurrencyInfoHelpers'
 import { SceneWrapper } from '../../common/SceneWrapper.js'
 import { ButtonsModal } from '../../modals/ButtonsModal.js'
 import { type WalletListResult, WalletListModal } from '../../modals/WalletListModal.js'
-import { SWEEP_PRIVATE_KEY } from '../../scenes/ScanScene'
+import { LOGIN_QR, SWEEP_PRIVATE_KEY } from '../../scenes/ScanScene'
 import { Airship } from '../../services/AirshipInstance.js'
 import { type Theme, cacheStyles, useTheme } from '../../services/ThemeContext'
 import { DividerLine } from '../DividerLine'
 import { EdgeText } from '../EdgeText'
-import { ControlPanelRateComponent } from './ControlPanelRate.js'
+import { FiatText } from '../FiatText.js'
 
 type Props = { navigation: NavigationProp<'controlPanel'> }
 
@@ -44,8 +48,14 @@ export function ControlPanel(props: Props) {
 
   const activeUsername = useSelector(state => state.core.account.username)
   const context = useSelector(state => state.core.context)
-  const selectedCurrencyCode = useSelector(state => state.ui.wallets.selectedWalletId)
-  const selectedWalletId = useSelector(state => state.ui.wallets.selectedCurrencyCode)
+  const selectedCurrencyCode = useSelector(state => state.ui.wallets.selectedCurrencyCode)
+  const selectedWalletId = useSelector(state => state.ui.wallets.selectedWalletId)
+  const guiWallet = useSelector(state => getSelectedWallet(state))
+  const currencyLogo = useSelector(state => (guiWallet != null ? getCurrencyIcon(guiWallet.currencyCode, selectedCurrencyCode).symbolImage : null))
+  const { name: currencyDenomName, multiplier: currencyDenomMult } = useSelector(state =>
+    guiWallet != null ? getDisplayDenomination(state, selectedCurrencyCode) : { name: '', multiplier: '1' }
+  )
+  const isoFiatCurrencyCode = guiWallet != null ? guiWallet.isoFiatCurrencyCode : null
 
   /// ---- Local State ----
 
@@ -99,6 +109,10 @@ export function ControlPanel(props: Props) {
         })
       }
     })
+  }
+
+  const handleLoginQr = () => {
+    Actions.jump(SCAN, { data: LOGIN_QR })
   }
 
   const handleShareApp = () => {
@@ -182,7 +196,8 @@ export function ControlPanel(props: Props) {
     },
     {
       pressHandler: () => {
-        handleGoToScene(SCAN)
+        // handleGoToScene(SCAN, LOGIN_QR)
+        handleLoginQr()
       },
       iconName: 'hamburgerButton',
       title: s.strings.drawer_scan_qr_send
@@ -204,7 +219,7 @@ export function ControlPanel(props: Props) {
       title: s.strings.settings_title
     },
     {
-      handlePress: () => {
+      pressHandler: () => {
         dispatch(logoutRequest())
       },
       iconName: 'hamburgerButton',
@@ -212,14 +227,39 @@ export function ControlPanel(props: Props) {
     }
   ]
 
-  const dividerLine = <DividerLine marginRem={[0.5, -2, 0, 1]} />
+  const dividerLine = <DividerLine marginRem={[0.5, -2, 2, 1]} />
+  const fiatText =
+    isoFiatCurrencyCode === null ? (
+      ''
+    ) : (
+      <FiatText
+        nativeCryptoAmount={currencyDenomMult}
+        cryptoCurrencyCode={selectedCurrencyCode}
+        isoFiatCurrencyCode={isoFiatCurrencyCode}
+        autoPrecision
+        fiatSymbolSpace
+      />
+    )
+
+  const exchangeRateText =
+    currencyDenomName === null ? (
+      <EdgeText style={styles.text}>{s.strings.exchange_rate_loading_singular}</EdgeText>
+    ) : (
+      <EdgeText style={styles.text}>
+        {`1 ${currencyDenomName} = `}
+        {fiatText}
+      </EdgeText>
+    )
 
   return (
     <SceneWrapper hasHeader={false} hasTabs={false} isGapTop={false} background="none">
       {/* ==== Top Panel Start ==== */}
       <View style={styles.topPanel}>
         <Image style={styles.logoImage} source={edgeLogo} resizeMode="contain" />
-        <ControlPanelRateComponent />
+        <View style={styles.rowContainer}>
+          <View style={styles.rowIconContainer}>{!!currencyLogo && <Image style={styles.icon} source={{ uri: currencyLogo }} />}</View>
+          <View style={styles.rowBodyContainer}>{exchangeRateText}</View>
+        </View>
         <Pressable onPress={handleToggleDropdown} style={styles.rowContainer}>
           <View style={styles.rowIconContainer}>
             <Fontello name="hamburgerButton" style={styles.icon} size={theme.rem(1.5)} color={theme.controlPanelIcon} />
@@ -236,8 +276,8 @@ export function ControlPanel(props: Props) {
         {dividerLine}
       </View>
       {/* ==== Top Panel End ==== */}
-      {/* ==== Bottom Panel Start ==== */}
-      <View style={styles.bottomPanel}>
+      {/* ==== Middle Panel Start ==== */}
+      <View style={styles.middlePanel}>
         {/* === Dropdown Start === */}
         <Animated.View style={[styles.dropContainer, aDropdown]}>
           <ScrollView>
@@ -259,7 +299,7 @@ export function ControlPanel(props: Props) {
         {!isDropped ? null : <Pressable style={styles.invisibleTapper} onPress={handleToggleDropdown} />}
         {/* === Navigation Rows Start === */}
         <View style={styles.rowsContainer}>
-          <ScrollView style={{ marginBottom: theme.rem(4) }}>
+          <ScrollView>
             {rowDatas.map(rowData => (
               <TouchableOpacity onPress={rowData.pressHandler} key={rowData.title} style={styles.rowContainer}>
                 <View style={styles.rowIconContainer}>
@@ -272,10 +312,10 @@ export function ControlPanel(props: Props) {
             ))}
           </ScrollView>
           {/* === Navigation Rows End === */}
-          {dividerLine}
         </View>
       </View>
-      {/* ==== Bottom Panel End ==== */}
+      {/* ==== Middle Panel End ==== */}
+      <View style={styles.bottomPanel}>{dividerLine}</View>
     </SceneWrapper>
   )
 }
@@ -315,10 +355,17 @@ const getStyles = cacheStyles((theme: Theme) => ({
     borderTopLeftRadius: theme.rem(2),
     height: theme.rem(10.5)
   },
-  bottomPanel: {
+  middlePanel: {
     flex: 1,
     flexGrow: 1,
+    backgroundColor: theme.modal
+  },
+  bottomPanel: {
     backgroundColor: theme.modal,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    flexDirection: 'column',
+    height: theme.rem(4),
     borderBottomLeftRadius: theme.rem(2)
   },
   rowsContainer: {
@@ -338,7 +385,7 @@ const getStyles = cacheStyles((theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: theme.rem(3),
-    width: theme.rem(3),
+    aspectRatio: 1,
     marginLeft: theme.rem(0.25)
   },
   rowBodyContainer: {
