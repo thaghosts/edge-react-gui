@@ -20,19 +20,31 @@ import { EDGE_URL, getPrivateKeySweepableCurrencies } from '../../../constants/W
 import s from '../../../locales/strings'
 import { getDisplayDenomination } from '../../../selectors/DenominationSelectors'
 import { getSelectedWallet } from '../../../selectors/WalletSelectors'
+<<<<<<< HEAD
 import { useEffect, useMemo, useState } from '../../../types/reactHooks'
+=======
+import { useEffect, useState } from '../../../types/reactHooks'
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
 import { useDispatch, useSelector } from '../../../types/reactRedux'
 import { type NavigationProp, type ParamList, Actions } from '../../../types/routerTypes.js'
 import { getCurrencyIcon } from '../../../util/CurrencyInfoHelpers'
 import { SceneWrapper } from '../../common/SceneWrapper.js'
 import { ButtonsModal } from '../../modals/ButtonsModal.js'
 import { type WalletListResult, WalletListModal } from '../../modals/WalletListModal.js'
+<<<<<<< HEAD
 import { LOGIN_QR, SWEEP_PRIVATE_KEY } from '../../scenes/ScanScene'
+=======
+import { SWEEP_PRIVATE_KEY } from '../../scenes/ScanScene'
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
 import { Airship } from '../../services/AirshipInstance.js'
 import { type Theme, cacheStyles, useTheme } from '../../services/ThemeContext'
 import { DividerLine } from '../DividerLine'
 import { EdgeText } from '../EdgeText'
+<<<<<<< HEAD
 import { FiatText } from '../FiatText.js'
+=======
+import { FiatTextTemp } from '../FiatText.js'
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
 
 type Props = { navigation: NavigationProp<'controlPanel'> }
 
@@ -52,9 +64,13 @@ export function ControlPanel(props: Props) {
   const selectedWalletId = useSelector(state => state.ui.wallets.selectedWalletId)
   const guiWallet = useSelector(state => getSelectedWallet(state))
   const currencyLogo = useSelector(state => (guiWallet != null ? getCurrencyIcon(guiWallet.currencyCode, selectedCurrencyCode).symbolImage : null))
+<<<<<<< HEAD
   const { name: currencyDenomName, multiplier: currencyDenomMult } = useSelector(state =>
     guiWallet != null ? getDisplayDenomination(state, selectedCurrencyCode) : { name: '', multiplier: '1' }
   )
+=======
+  const currencyDenomName = useSelector(state => (guiWallet != null ? getDisplayDenomination(state, selectedCurrencyCode).name : ''))
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
   const isoFiatCurrencyCode = guiWallet != null ? guiWallet.isoFiatCurrencyCode : null
 
   /// ---- Local State ----
@@ -104,7 +120,11 @@ export function ControlPanel(props: Props) {
       <WalletListModal bridge={bridge} headerTitle={s.strings.select_wallet} allowedCurrencyCodes={getPrivateKeySweepableCurrencies()} showCreateWallet />
     )).then(({ walletId, currencyCode }: WalletListResult) => {
       if (walletId && currencyCode) {
+<<<<<<< HEAD
         dispatch(selectWalletFromModal(selectedWalletId, selectedCurrencyCode))
+=======
+        dispatch(selectWalletFromModal(selectedCurrencyCode, selectedWalletId))
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
         Actions.jump(SCAN, {
           data: SWEEP_PRIVATE_KEY
         })
@@ -112,10 +132,13 @@ export function ControlPanel(props: Props) {
     })
   }
 
+<<<<<<< HEAD
   const handleLoginQr = () => {
     Actions.jump(SCAN, { data: LOGIN_QR })
   }
 
+=======
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
   const handleShareApp = () => {
     const message = `${sprintf(s.strings.share_subject, s.strings.app_name)}\n\n${s.strings.share_message}\n\n`
 
@@ -175,22 +198,46 @@ export function ControlPanel(props: Props) {
 
   const rowDatas: any[] = [
     {
+<<<<<<< HEAD
       pressHandler: () => handleGoToScene(FIO_ADDRESS_LIST),
+=======
+      pressHandler: () => {
+        handleGoToScene(FIO_ADDRESS_LIST)
+      },
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       iconName: 'hamburgerButton',
       title: s.strings.drawer_fio_names
     },
     {
+<<<<<<< HEAD
       pressHandler: () => handleGoToScene(FIO_REQUEST_LIST),
+=======
+      pressHandler: () => {
+        handleGoToScene(FIO_REQUEST_LIST)
+      },
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       iconName: 'hamburgerButton',
       title: s.strings.drawer_fio_requests
     },
     {
+<<<<<<< HEAD
       pressHandler: () => handleGoToScene(WALLET_CONNECT),
+=======
+      pressHandler: () => {
+        handleGoToScene(WALLET_CONNECT)
+      },
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       iconName: 'hamburgerButton',
       title: s.strings.wc_walletconnect_title
     },
     {
+<<<<<<< HEAD
       pressHandler: () => handleLoginQr(),
+=======
+      pressHandler: () => {
+        handleGoToScene(SCAN)
+      },
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       iconName: 'hamburgerButton',
       title: s.strings.drawer_scan_qr_send
     },
@@ -224,6 +271,7 @@ export function ControlPanel(props: Props) {
     isoFiatCurrencyCode === null ? (
       ''
     ) : (
+<<<<<<< HEAD
       <FiatText
         nativeCryptoAmount={currencyDenomMult}
         cryptoCurrencyCode={selectedCurrencyCode}
@@ -240,6 +288,17 @@ export function ControlPanel(props: Props) {
       <EdgeText style={styles.text}>
         {`1 ${currencyDenomName} = `}
         {fiatText}
+=======
+      <FiatTextTemp nativeCryptoAmount="1" cryptoCurrencyCode={selectedCurrencyCode} isoFiatCurrencyCode={isoFiatCurrencyCode} autoPrecision />
+    )
+
+  const exchangeRateText =
+    isoFiatCurrencyCode === null ? (
+      <EdgeText style={styles.text}>{s.strings.exchange_rate_loading_singular}</EdgeText>
+    ) : (
+      <EdgeText style={styles.text}>
+        {`1 ${currencyDenomName} = `} {fiatText}
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       </EdgeText>
     )
 
@@ -268,7 +327,11 @@ export function ControlPanel(props: Props) {
         {dividerLine}
       </View>
       {/* ==== Top Panel End ==== */}
+<<<<<<< HEAD
       {/* ==== Middle Panel Start ==== */}
+=======
+      {/* ==== Bottom Panel Start ==== */}
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       <View style={styles.middlePanel}>
         {/* === Dropdown Start === */}
         <Animated.View style={[styles.dropContainer, aDropdown]}>
@@ -276,10 +339,17 @@ export function ControlPanel(props: Props) {
             {usernames.map((username: string) => (
               <View key={username} style={styles.rowContainer}>
                 <View style={styles.rowIconContainer} />
+<<<<<<< HEAD
                 <TouchableHighlight style={styles.rowBodyContainer} onPress={handleSwitchAccount(username)}>
                   <EdgeText style={styles.text}>{username}</EdgeText>
                 </TouchableHighlight>
                 <TouchableHighlight style={styles.rowIconContainer} onPress={handleDeleteAccount(username)}>
+=======
+                <TouchableHighlight style={styles.rowBodyContainer} onPress={() => handleSwitchAccount(username)}>
+                  <EdgeText style={styles.text}>{username}</EdgeText>
+                </TouchableHighlight>
+                <TouchableHighlight style={styles.rowIconContainer} onPress={() => handleDeleteAccount(username)}>
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
                   <MaterialIcon size={theme.rem(1.5)} name="close" color={theme.controlPanelIcon} />
                 </TouchableHighlight>
               </View>
@@ -306,7 +376,11 @@ export function ControlPanel(props: Props) {
           {/* === Navigation Rows End === */}
         </View>
       </View>
+<<<<<<< HEAD
       {/* ==== Middle Panel End ==== */}
+=======
+      {/* ==== Bottom Panel End ==== */}
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
       <View style={styles.bottomPanel}>{dividerLine}</View>
     </SceneWrapper>
   )
@@ -377,7 +451,11 @@ const getStyles = cacheStyles((theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     height: theme.rem(3),
+<<<<<<< HEAD
     aspectRatio: 1,
+=======
+    width: theme.rem(3),
+>>>>>>> 587d305b7106efb635a0b501154c93f2d6679079
     marginLeft: theme.rem(0.25)
   },
   rowBodyContainer: {
