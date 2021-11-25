@@ -20,7 +20,7 @@ import { EDGE_URL, getPrivateKeySweepableCurrencies } from '../../../constants/W
 import s from '../../../locales/strings'
 import { getDisplayDenomination } from '../../../selectors/DenominationSelectors'
 import { getSelectedWallet } from '../../../selectors/WalletSelectors'
-import { useEffect, useState } from '../../../types/reactHooks'
+import { useEffect, useMemo, useState } from '../../../types/reactHooks'
 import { useDispatch, useSelector } from '../../../types/reactRedux'
 import { type NavigationProp, type ParamList, Actions } from '../../../types/routerTypes.js'
 import { getCurrencyIcon } from '../../../util/CurrencyInfoHelpers'
@@ -60,8 +60,9 @@ export function ControlPanel(props: Props) {
   /// ---- Local State ----
 
   // Maintain the list of usernames:
-  const [usernames, setUsernames] = useState(() => arrangeUsers(context.localUsers, activeUsername))
-  useEffect(() => context.watch('localUsers', localUsers => setUsernames(arrangeUsers(context.localUsers, activeUsername))), [context, activeUsername])
+  const initUsernames = useMemo(() => arrangeUsers(context.localUsers, activeUsername), [context, activeUsername])
+  const [usernames, setUsernames] = useState(initUsernames)
+  useEffect(() => context.watch('localUsers', localUsers => setUsernames(initUsernames)))
 
   // User List dropdown/open state:
   const [isDropped, setIsDropped] = useState(false)
@@ -74,7 +75,7 @@ export function ControlPanel(props: Props) {
 
   /// ---- Callbacks ----
 
-  const handleDeleteAccount = (username: string) => {
+  const handleDeleteAccount = (username: string) => () => {
     Airship.show(bridge => (
       <ButtonsModal
         bridge={bridge}
@@ -94,7 +95,7 @@ export function ControlPanel(props: Props) {
     ))
   }
 
-  const handleSwitchAccount = (username: string) => {
+  const handleSwitchAccount = (username: string) => () => {
     dispatch(logoutRequest(username))
   }
 
@@ -174,31 +175,22 @@ export function ControlPanel(props: Props) {
 
   const rowDatas: any[] = [
     {
-      pressHandler: () => {
-        handleGoToScene(FIO_ADDRESS_LIST)
-      },
+      pressHandler: () => handleGoToScene(FIO_ADDRESS_LIST),
       iconName: 'hamburgerButton',
       title: s.strings.drawer_fio_names
     },
     {
-      pressHandler: () => {
-        handleGoToScene(FIO_REQUEST_LIST)
-      },
+      pressHandler: () => handleGoToScene(FIO_REQUEST_LIST),
       iconName: 'hamburgerButton',
       title: s.strings.drawer_fio_requests
     },
     {
-      pressHandler: () => {
-        handleGoToScene(WALLET_CONNECT)
-      },
+      pressHandler: () => handleGoToScene(WALLET_CONNECT),
       iconName: 'hamburgerButton',
       title: s.strings.wc_walletconnect_title
     },
     {
-      pressHandler: () => {
-        // handleGoToScene(SCAN, LOGIN_QR)
-        handleLoginQr()
-      },
+      pressHandler: () => handleLoginQr(),
       iconName: 'hamburgerButton',
       title: s.strings.drawer_scan_qr_send
     },
@@ -284,10 +276,10 @@ export function ControlPanel(props: Props) {
             {usernames.map((username: string) => (
               <View key={username} style={styles.rowContainer}>
                 <View style={styles.rowIconContainer} />
-                <TouchableHighlight style={styles.rowBodyContainer} onPress={() => handleSwitchAccount(username)}>
+                <TouchableHighlight style={styles.rowBodyContainer} onPress={handleSwitchAccount(username)}>
                   <EdgeText style={styles.text}>{username}</EdgeText>
                 </TouchableHighlight>
-                <TouchableHighlight style={styles.rowIconContainer} onPress={() => handleDeleteAccount(username)}>
+                <TouchableHighlight style={styles.rowIconContainer} onPress={handleDeleteAccount(username)}>
                   <MaterialIcon size={theme.rem(1.5)} name="close" color={theme.controlPanelIcon} />
                 </TouchableHighlight>
               </View>
