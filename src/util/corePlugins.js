@@ -45,9 +45,9 @@ export const currencyPlugins = {
   // edge-currency-bitcoin:
   bitcoin: true,
   bitcoincash: true,
-  // bitcoincashtestnet: false,
+  bitcoincashtestnet: false,
   bitcoingold: true,
-  // bitcoingoldtestnet: false,
+  bitcoingoldtestnet: false,
   // bitcoinsv: true,
   bitcointestnet: true,
   dash: true,
