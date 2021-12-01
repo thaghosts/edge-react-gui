@@ -5177,7 +5177,7 @@ edge-currency-monero@^0.3.3:
 
 edge-currency-plugins@./deps/edge-currency-plugins.tgz:
   version "0.0.1"
-  resolved "./deps/edge-currency-plugins.tgz#88e961b395a4cf5b513eda284e95200d4dcb8618"
+  resolved "./deps/edge-currency-plugins.tgz#ee4879bc390583874601ad2951729b6f89f42826"
   dependencies:
     altcoin-js "git://github.com/EdgeApp/altcoin-js.git#master"
     async-mutex "^0.2.6"
