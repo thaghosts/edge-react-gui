@@ -5,7 +5,7 @@ import { sprintf } from 'sprintf-js'
 
 import { showError, showToast } from '../components/services/AirshipInstance.js'
 import { guiPlugins } from '../constants/plugins/GuiPlugins.js'
-import { EDGE_LOGIN, EXCHANGE_SCENE, PLUGIN_VIEW, WALLET_LIST_SCENE } from '../constants/SceneKeys.js'
+import { EDGE_LOGIN, EXCHANGE_SCENE, PLUGIN_VIEW, WALLET_LIST } from '../constants/SceneKeys.js'
 import s from '../locales/strings.js'
 import { type DeepLink } from '../types/DeepLink.js'
 import { type Dispatch, type GetState, type RootState } from '../types/reduxTypes.js'
@@ -110,7 +110,7 @@ function handleLink(dispatch: Dispatch, state: RootState, link: DeepLink): boole
       if (!hasCurrentWallet) return false
       const edgeWallet = currencyWallets[selectedWalletId]
       if (edgeWallet.currencyInfo.currencyCode !== 'BTC') {
-        Actions.push(WALLET_LIST_SCENE)
+        Actions.push(WALLET_LIST)
         showError(s.strings.azteco_btc_only)
         return false
       }
@@ -163,7 +163,7 @@ async function launchAzteco(edgeWallet: EdgeCurrencyWallet, uri: string): Promis
   } else {
     showError(s.strings.azteco_service_unavailable)
   }
-  Actions.push(WALLET_LIST_SCENE)
+  Actions.push(WALLET_LIST)
 }
 
 const CURRENCY_NAMES = {

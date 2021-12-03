@@ -8,7 +8,7 @@ import { sprintf } from 'sprintf-js'
 import { ButtonsModal } from '../components/modals/ButtonsModal.js'
 import { type AccountPaymentParams } from '../components/scenes/CreateWalletAccountSelectScene.js'
 import { Airship, showError } from '../components/services/AirshipInstance.js'
-import { SEND, WALLET_LIST_SCENE } from '../constants/SceneKeys.js'
+import { SEND, WALLET_LIST } from '../constants/SceneKeys.js'
 import { CURRENCY_PLUGIN_NAMES } from '../constants/WalletAndCurrencyConstants.js'
 import s from '../locales/strings.js'
 import { getExchangeDenomination } from '../selectors/DenominationSelectors.js'
@@ -43,7 +43,7 @@ export const createCurrencyWallet =
       .createCurrencyWallet(type, opts)
       .then(edgeWallet => {
         const { currencyCode } = edgeWallet.currencyInfo
-        if (popScene) Actions.popTo(WALLET_LIST_SCENE)
+        if (popScene) Actions.popTo(WALLET_LIST)
         dispatch({ type: 'UI/WALLETS/CREATE_WALLET_SUCCESS' })
         if (selectWallet) {
           dispatch(selectWalletAction(edgeWallet.id, currencyCode))
@@ -175,7 +175,7 @@ export const createAccountTransaction =
               notes: sprintf(s.strings.create_wallet_account_metadata_notes, createdWalletCurrencyCode, createdWalletCurrencyCode, 'support@edge.app')
             }
             paymentWallet.saveTxMetadata(edgeTransaction.txid, currencyCode, edgeMetadata).then(() => {
-              Actions.popTo(WALLET_LIST_SCENE)
+              Actions.popTo(WALLET_LIST)
               setTimeout(() => {
                 Alert.alert(s.strings.create_wallet_account_payment_sent_title, s.strings.create_wallet_account_payment_sent_message)
               }, 750)

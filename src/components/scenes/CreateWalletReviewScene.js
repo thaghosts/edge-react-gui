@@ -45,7 +45,7 @@ class CreateWalletReviewComponent extends React.Component<Props, State> {
 
   goToWalletList = () => {
     const { navigation } = this.props
-    navigation.navigate('walletListScene')
+    navigation.navigate('walletList')
   }
 
   async createWallet() {

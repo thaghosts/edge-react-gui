@@ -211,23 +211,11 @@ export const signBroadcastAndSave =
     const guiMakeSpendInfo = state.ui.scenes.sendConfirmation.guiMakeSpendInfo
 
     if (guiMakeSpendInfo.beforeTransaction) {
-      dispatch({
-        type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-        data: { pending: true }
-      })
       try {
         guiMakeSpendInfo.beforeTransaction && (await guiMakeSpendInfo.beforeTransaction())
       } catch (e) {
-        dispatch({
-          type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-          data: { pending: false }
-        })
         return
       }
-      dispatch({
-        type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-        data: { pending: false }
-      })
     }
 
     if (!spendInfo) throw new Error(s.strings.invalid_spend_request)
@@ -258,10 +246,6 @@ export const signBroadcastAndSave =
       }
     }
 
-    dispatch({
-      type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-      data: { pending: true }
-    })
     let edgeSignedTransaction: EdgeTransaction = edgeUnsignedTransaction
     try {
       if (authRequired === 'pin') {
@@ -333,7 +317,7 @@ export const signBroadcastAndSave =
               chainCode = edgeSignedTransaction.wallet.currencyInfo.currencyCode
             }
             try {
-              recordSend(fioWallet, fioAddress, {
+              await recordSend(fioWallet, fioAddress, {
                 payeeFioAddress,
                 payerPublicAddress,
                 payeePublicAddress: guiMakeSpendInfo.publicAddress || publicAddress || '',
@@ -349,10 +333,6 @@ export const signBroadcastAndSave =
           }
         }
       }
-      dispatch({
-        type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-        data: { pending: false }
-      })
 
       playSendSound().catch(error => console.log(error)) // Fail quietly
       if (!guiMakeSpendInfo.dismissAlert) {
@@ -374,10 +354,6 @@ export const signBroadcastAndSave =
       }
     } catch (e) {
       console.log(e)
-      dispatch({
-        type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-        data: { pending: false }
-      })
       let message = sprintf(s.strings.transaction_failure_message, e.message)
       if (e.name === 'ErrorEosInsufficientCpu') {
         message = s.strings.send_confirmation_eos_error_cpu

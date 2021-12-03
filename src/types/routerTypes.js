@@ -219,7 +219,6 @@ export type ParamList = {
     currencyCode: string
   |},
   walletList: void,
-  walletListScene: void,
   wcConnections: void,
   wcDisconnect: {| wcConnectionInfo: WcConnectionInfo |},
   wcConnect: {| dAppName: string, wcQRUri: string |}

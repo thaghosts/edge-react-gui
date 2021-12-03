@@ -99,8 +99,7 @@ import {
   TRANSACTION_DETAILS,
   TRANSACTION_LIST,
   TRANSACTIONS_EXPORT,
-  WALLET_LIST,
-  WALLET_LIST_SCENE
+  WALLET_LIST
 } from '../constants/SceneKeys.js'
 import s from '../locales/strings.js'
 import { ifLoggedIn } from '../modules/UI/components/LoginStatus/LoginStatus.js'
@@ -257,7 +256,7 @@ export class MainComponent extends React.Component<Props> {
           <Tabs key={EDGE} swipeEnabled={false} tabBarPosition="bottom" tabBarComponent={MenuTab}>
             <Stack key={WALLET_LIST}>
               <Scene
-                key={WALLET_LIST_SCENE}
+                key={WALLET_LIST}
                 component={withNavigation(ifLoggedIn(WalletListScene))}
                 navTransparent
                 renderTitle={<EdgeLogoHeader />}
@@ -852,7 +851,7 @@ export class MainComponent extends React.Component<Props> {
     if (this.isCurrentScene(LOGIN)) {
       return false
     }
-    if (this.isCurrentScene(WALLET_LIST_SCENE)) {
+    if (this.isCurrentScene(WALLET_LIST)) {
       if (this.backPressedOnce) {
         this.props.logout()
       } else {
@@ -873,7 +872,7 @@ export class MainComponent extends React.Component<Props> {
     }
     if (this.isCurrentScene(FIO_ADDRESS_REGISTER)) {
       if (Actions.currentParams.noAddresses) {
-        Actions.jump(WALLET_LIST_SCENE)
+        Actions.jump(WALLET_LIST)
         return true
       }
     }

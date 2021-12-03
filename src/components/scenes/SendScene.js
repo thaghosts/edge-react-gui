@@ -51,7 +51,6 @@ type StateProps = {
   exchangeRates: GuiExchangeRates,
   lockInputs?: boolean,
   nativeAmount: string | null,
-  pending: boolean,
   pin: string,
   resetSlider: boolean,
   settings: any,
@@ -68,8 +67,7 @@ type StateProps = {
 type DispatchProps = {
   reset: () => void,
   sendConfirmationUpdateTx: (guiMakeSpendInfo: GuiMakeSpendInfo, selectedWalletId?: string, selectedCurrencyCode?: string, isFeeChanged?: boolean) => void,
-  signBroadcastAndSave: (fioSender?: FioSenderInfo, selectedWalletId?: string, selectedCurrencyCode?: string) => void,
-  updateSpendPending: boolean => void,
+  signBroadcastAndSave: (fioSender?: FioSenderInfo, selectedWalletId?: string, selectedCurrencyCode?: string) => Promise<void>,
   onChangePin: (pin: string) => void,
   selectWallet: (walletId: string, currencyCode: string) => void
 }
@@ -151,17 +149,6 @@ class SendComponent extends React.PureComponent<Props, State> {
     const { guiMakeSpendInfo } = route.params
     if (guiMakeSpendInfo && guiMakeSpendInfo.onBack) {
       guiMakeSpendInfo.onBack()
-    }
-  }
-
-  componentDidUpdate(prevProps: Props): void {
-    if (prevProps.pending && !this.props.pending) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ resetSlider: true })
-    }
-    if (!prevProps.pending && !this.props.pending && this.state.resetSlider) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({ resetSlider: false })
     }
   }
 
@@ -291,17 +278,14 @@ class SendComponent extends React.PureComponent<Props, State> {
 
   submitFio = async (isFioPendingRequest: boolean) => {
     const { fioSender } = this.state
-    const { updateSpendPending, signBroadcastAndSave } = this.props
+    const { signBroadcastAndSave } = this.props
     const { selectedWalletId, selectedCurrencyCode } = this.state
 
-    if (fioSender == null || fioSender.fioWallet == null || fioSender.fioAddress == null || isFioPendingRequest) {
-      return
-    }
-
-    updateSpendPending(true)
     try {
-      await checkRecordSendFee(fioSender.fioWallet, fioSender.fioAddress)
-      signBroadcastAndSave(fioSender)
+      if (fioSender?.fioWallet != null && fioSender?.fioAddress != null && !isFioPendingRequest) {
+        await checkRecordSendFee(fioSender.fioWallet, fioSender.fioAddress)
+      }
+      await signBroadcastAndSave(fioSender)
     } catch (e) {
       if (e.code && e.code === FIO_NO_BUNDLED_ERR_CODE && selectedCurrencyCode !== FIO_STR) {
         const answer = await Airship.show(bridge => (
@@ -317,13 +301,12 @@ class SendComponent extends React.PureComponent<Props, State> {
         ))
         if (answer === 'ok') {
           fioSender.skipRecord = true
-          signBroadcastAndSave(fioSender, selectedWalletId, selectedCurrencyCode)
+          await signBroadcastAndSave(fioSender, selectedWalletId, selectedCurrencyCode)
         }
       } else {
         showError(e)
       }
     }
-    updateSpendPending(false)
   }
 
   submit = async () => {
@@ -338,7 +321,7 @@ class SendComponent extends React.PureComponent<Props, State> {
     if (isSendUsingFioAddress || isFioPendingRequest) {
       await this.submitFio(isFioPendingRequest)
     } else {
-      signBroadcastAndSave(undefined, selectedWalletId, selectedCurrencyCode)
+      await signBroadcastAndSave(undefined, selectedWalletId, selectedCurrencyCode)
     }
 
     this.setState({ loading: false })
@@ -570,8 +553,12 @@ class SendComponent extends React.PureComponent<Props, State> {
 
   // Render
   render() {
-    const { pending, resetSlider, sliderDisabled, theme } = this.props
+    const { resetSlider, sliderDisabled, theme } = this.props
+    console.log('557. resetSlider', resetSlider)
+    console.log('558. sliderDisabled', sliderDisabled)
     const { loading, recipientAddress, resetSlider: localResetSlider } = this.state
+    console.log('560. loading', loading)
+    console.log('561. localResetSlider', localResetSlider)
     const styles = getStyles(theme)
 
     return (
@@ -589,7 +576,7 @@ class SendComponent extends React.PureComponent<Props, State> {
           {this.renderAuthentication()}
           <View style={styles.footer}>
             {!!recipientAddress && !localResetSlider && (
-              <Slider onSlidingComplete={this.submit} reset={resetSlider || localResetSlider} disabled={sliderDisabled} showSpinner={loading || pending} />
+              <Slider onSlidingComplete={this.submit} reset={resetSlider || localResetSlider} disabled={sliderDisabled} showSpinner={loading} />
             )}
           </View>
         </KeyboardAwareScrollView>
@@ -622,7 +609,7 @@ const getStyles = cacheStyles((theme: Theme) => ({
 
 export const SendScene = connect<StateProps, DispatchProps, OwnProps>(
   state => {
-    const { nativeAmount, transaction, transactionMetadata, error, pending, guiMakeSpendInfo, isSendUsingFioAddress } = state.ui.scenes.sendConfirmation
+    const { nativeAmount, transaction, transactionMetadata, error, guiMakeSpendInfo, isSendUsingFioAddress } = state.ui.scenes.sendConfirmation
 
     return {
       account: state.core.account,
@@ -634,11 +621,10 @@ export const SendScene = connect<StateProps, DispatchProps, OwnProps>(
       lockInputs: guiMakeSpendInfo.lockInputs,
       metadata: guiMakeSpendInfo && guiMakeSpendInfo.metadata ? guiMakeSpendInfo : undefined,
       nativeAmount,
-      pending,
       pin: state.ui.scenes.sendConfirmation.pin,
       resetSlider: !!error && (error.message === 'broadcastError' || error.message === 'transactionCancelled'),
       settings: state.ui.settings,
-      sliderDisabled: !transaction || !!error || !!pending,
+      sliderDisabled: !transaction || !!error,
       transaction,
       transactionMetadata,
       uniqueIdentifier: guiMakeSpendInfo.uniqueIdentifier,
@@ -655,14 +641,8 @@ export const SendScene = connect<StateProps, DispatchProps, OwnProps>(
     sendConfirmationUpdateTx(guiMakeSpendInfo: GuiMakeSpendInfo, selectedWalletId?: string, selectedCurrencyCode?: string, isFeeChanged = false) {
       dispatch(sendConfirmationUpdateTx(guiMakeSpendInfo, true, selectedWalletId, selectedCurrencyCode, isFeeChanged))
     },
-    updateSpendPending(pending: boolean) {
-      dispatch({
-        type: 'UI/SEND_CONFIRMATION/UPDATE_SPEND_PENDING',
-        data: { pending }
-      })
-    },
-    signBroadcastAndSave(fioSender?: FioSenderInfo, selectedWalletId?: string, selectedCurrencyCode?: string) {
-      dispatch(signBroadcastAndSave(fioSender, selectedWalletId, selectedCurrencyCode))
+    async signBroadcastAndSave(fioSender?: FioSenderInfo, selectedWalletId?: string, selectedCurrencyCode?: string) {
+      await dispatch(signBroadcastAndSave(fioSender, selectedWalletId, selectedCurrencyCode))
     },
     onChangePin(pin: string) {
       dispatch({ type: 'UI/SEND_CONFIRMATION/NEW_PIN', data: { pin } })

@@ -66,4 +66,3 @@ export const TRANSACTION_LIST = 'transactionList'
 export const TRANSACTIONS_EXPORT = 'transactionsExport'
 export const WALLET_CONNECT = 'wcConnections'
 export const WALLET_LIST = 'walletList'
-export const WALLET_LIST_SCENE = 'walletListScene' // distinguished as actual scene vs. stack
