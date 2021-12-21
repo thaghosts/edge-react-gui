@@ -5175,9 +5175,9 @@ edge-currency-monero@^0.3.3:
     mymonero-core-js "git://github.com/EdgeApp/mymonero-core-js.git#matthew/txPrivateKey"
     uri-js "^3.0.2"
 
-edge-currency-plugins@./deps/edge-currency-plugins.5867c5e60c1ec0e9dd88f3352d0cc33207be3580.tgz:
+edge-currency-plugins@./deps/edge-currency-plugins.cef7d2e8284fe579b5dcb599ff90764fd740eb6f.tgz:
   version "0.0.1"
-  resolved "./deps/edge-currency-plugins.5867c5e60c1ec0e9dd88f3352d0cc33207be3580.tgz#5867c5e60c1ec0e9dd88f3352d0cc33207be3580"
+  resolved "./deps/edge-currency-plugins.cef7d2e8284fe579b5dcb599ff90764fd740eb6f.tgz#cef7d2e8284fe579b5dcb599ff90764fd740eb6f"
   dependencies:
     altcoin-js "git://github.com/EdgeApp/altcoin-js.git#master"
     async-mutex "^0.2.6"
@@ -6783,13 +6783,8 @@ gradle-to-js@2.0.0:
   dependencies:
     lodash.merge "4.6.2"
 
-groestl-hash-js@^1.0.0:
+groestl-hash-js@^1.0.0, "groestl-hash-js@https://github.com/Groestlcoin/groestl-hash-js.git":
   version "1.0.0"
-  resolved "git+https://github.com/Groestlcoin/groestl-hash-js.git#ef6a04f1c4d2f0448f0882b5f213ef7a0659baee"
-
-"groestl-hash-js@https://github.com/Groestlcoin/groestl-hash-js.git":
-  version "1.0.0"
-  uid ef6a04f1c4d2f0448f0882b5f213ef7a0659baee
   resolved "https://github.com/Groestlcoin/groestl-hash-js.git#ef6a04f1c4d2f0448f0882b5f213ef7a0659baee"
 
 growly@^1.3.0:
