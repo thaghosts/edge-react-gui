@@ -5175,9 +5175,9 @@ edge-currency-monero@^0.3.3:
     mymonero-core-js "git://github.com/EdgeApp/mymonero-core-js.git#matthew/txPrivateKey"
     uri-js "^3.0.2"
 
-edge-currency-plugins@./deps/edge-currency-plugins.360d46145f5a005a828b480e32447389876b24fe.tgz:
+edge-currency-plugins@./deps/edge-currency-plugins.687e13b8cc3669bdeccd96216fb0edef3eb5750e.tgz:
   version "0.0.1"
-  resolved "./deps/edge-currency-plugins.360d46145f5a005a828b480e32447389876b24fe.tgz#360d46145f5a005a828b480e32447389876b24fe"
+  resolved "./deps/edge-currency-plugins.687e13b8cc3669bdeccd96216fb0edef3eb5750e.tgz#687e13b8cc3669bdeccd96216fb0edef3eb5750e"
   dependencies:
     altcoin-js "git://github.com/EdgeApp/altcoin-js.git#master"
     async-mutex "^0.2.6"
