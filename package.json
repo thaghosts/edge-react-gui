@@ -106,7 +106,7 @@
     "edge-core-js": "^0.19.0",
     "edge-currency-accountbased": "^0.11.5",
     "edge-currency-monero": "^0.3.3",
-    "edge-currency-plugins": "./deps/edge-currency-plugins.687e13b8cc3669bdeccd96216fb0edef3eb5750e.tgz",
+    "edge-currency-plugins": "./deps/edge-currency-plugins.0c22065dcf9174b542bef7b1a888c3d1d4e76514.tgz",
     "edge-exchange-plugins": "^0.12.6",
     "edge-login-ui-rn": "^0.9.28",
     "edge-plugin-bity": "https://github.com/EdgeApp/edge-plugin-bity.git#f04ee29c23bf5621f87dedb6d2fb1c83a18781bc",
