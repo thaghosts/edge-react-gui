@@ -3184,7 +3184,7 @@ base@^0.11.1:
     mixin-deep "^1.2.0"
     pascalcase "^0.1.1"
 
-baselet@^0.2.1:
+baselet@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/baselet/-/baselet-0.2.2.tgz#ecc8057f1c39894fc880fd0fbba7974234ddf709"
   integrity sha512-wButZaQQ3VLkFPP/3Cw0BUOvh2YsBKXpWXacfPAC/LS1nX73fedZeHwnE6G/UAACivRHgwapjMNHExJVyGqscQ==
@@ -5175,13 +5175,13 @@ edge-currency-monero@^0.3.3:
     mymonero-core-js "git://github.com/EdgeApp/mymonero-core-js.git#matthew/txPrivateKey"
     uri-js "^3.0.2"
 
-edge-currency-plugins@./deps/edge-currency-plugins.0c22065dcf9174b542bef7b1a888c3d1d4e76514.tgz:
+edge-currency-plugins@./deps/edge-currency-plugins.6cc1ab16bf87e238204477ea91fdcdb319856109.tgz:
   version "0.0.1"
-  resolved "./deps/edge-currency-plugins.0c22065dcf9174b542bef7b1a888c3d1d4e76514.tgz#0c22065dcf9174b542bef7b1a888c3d1d4e76514"
+  resolved "./deps/edge-currency-plugins.6cc1ab16bf87e238204477ea91fdcdb319856109.tgz#6cc1ab16bf87e238204477ea91fdcdb319856109"
   dependencies:
     altcoin-js "git://github.com/EdgeApp/altcoin-js.git#master"
     async-mutex "^0.2.6"
-    baselet "^0.2.1"
+    baselet "^0.2.2"
     biggystring "^4.0.0"
     bip32 "^2.0.5"
     bip32grs "^2.0.5"
@@ -5195,7 +5195,7 @@ edge-currency-plugins@./deps/edge-currency-plugins.0c22065dcf9174b542bef7b1a888c
     cleaners "^0.3.12"
     disklet "^0.4.5"
     edge-core-js "^0.18.9"
-    memlet "^0.1.5"
+    memlet "^0.1.6"
     uri-js "^4.4.0"
     url-parse "^1.5.2"
     wif-smart "^2.0.0"
@@ -8814,7 +8814,7 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-memlet@^0.1.5, memlet@^0.1.6:
+memlet@^0.1.6:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/memlet/-/memlet-0.1.6.tgz#e0901d7a29ad82d0b0c26056cf24dd85256f09d6"
   integrity sha512-KZNc4BPzkzd07dYh/DBa7Sc3dqIcHS06Ukt1vGBu71IcuBZCiXFkCj63eqmVsGqgsY8Mw652c+bMPMrV+MQdnA==
