@@ -1,8 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { fixSides, mapSides, sidesToMargin } from '../../util/sides.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 

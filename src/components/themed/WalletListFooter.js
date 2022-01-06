@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableOpacity, View } from 'react-native'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 
 import { selectWalletFromModal } from '../../actions/WalletActions.js'
@@ -11,6 +10,7 @@ import s from '../../locales/strings.js'
 import { connect } from '../../types/reactRedux.js'
 import { Actions } from '../../types/routerTypes.js'
 import { type GuiWallet } from '../../types/types.js'
+import { TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { type WalletListResult, WalletListModal } from '../modals/WalletListModal.js'
 import { Airship } from '../services/AirshipInstance.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'

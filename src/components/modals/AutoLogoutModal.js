@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react'
-import { Appearance, Picker, Platform, Text, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
@@ -10,6 +9,7 @@ import { PrimaryButton } from '../../modules/UI/components/Buttons/PrimaryButton
 import { SecondaryButton } from '../../modules/UI/components/Buttons/SecondaryButton.ui.js'
 import { dayText } from '../../styles/common/textStyles.js'
 import { THEME } from '../../theme/variables/airbitz.js'
+import { Appearance, Picker, Platform, Text, View } from '../../types/wrappedReactNative.js'
 import { type DisplayTime, displayToSeconds, secondsToDisplay } from '../../util/displayTime.js'
 import { AirshipModal } from '../common/AirshipModal.js'
 import { ContentArea } from '../common/ContentArea.js'

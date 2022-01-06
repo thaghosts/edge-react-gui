@@ -2,10 +2,10 @@
 
 import Clipboard from '@react-native-community/clipboard'
 import * as React from 'react'
-import { ScrollView } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import s from '../../locales/strings.js'
+import { ScrollView } from '../../types/wrappedReactNative.js'
 import { showToast } from '../services/AirshipInstance.js'
 import { MainButton } from '../themed/MainButton.js'
 import { ModalCloseArrow, ModalMessage, ModalTitle } from '../themed/ModalParts.js'

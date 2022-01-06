@@ -2,12 +2,12 @@
 
 import { type EdgePluginMap, type EdgeSwapConfig } from 'edge-core-js/types'
 import * as React from 'react'
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 
 import { getSwapPluginIcon } from '../../assets/images/exchange'
 import s from '../../locales/strings.js'
+import { Image, ScrollView, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText.js'
 import { ModalCloseArrow, ModalTitle } from '../themed/ModalParts.js'

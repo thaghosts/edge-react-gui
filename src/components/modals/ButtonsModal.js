@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { showError } from '../services/AirshipInstance.js'
 import { MainButton } from '../themed/MainButton.js'
 import { ModalCloseArrow, ModalMessage, ModalTitle } from '../themed/ModalParts.js'

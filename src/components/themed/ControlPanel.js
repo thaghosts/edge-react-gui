@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-raw-text */
 // @flow
 
+import { wrap } from 'cavy'
 import { type EdgeUserInfo } from 'edge-core-js'
 import * as React from 'react'
-import { Image, Platform, Pressable, ScrollView, TouchableOpacity, View } from 'react-native'
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
 import Share from 'react-native-share'
 import Feather from 'react-native-vector-icons/Feather'
@@ -25,6 +25,7 @@ import { getSelectedWallet } from '../../selectors/WalletSelectors'
 import { useEffect, useState } from '../../types/reactHooks'
 import { useDispatch, useSelector } from '../../types/reactRedux'
 import { type NavigationProp, type ParamList, Actions } from '../../types/routerTypes.js'
+import { Image, Platform, Pressable, ScrollView, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { getCurrencyIcon } from '../../util/CurrencyInfoHelpers'
 import { SceneWrapper } from '../common/SceneWrapper.js'
 import { ButtonsModal } from '../modals/ButtonsModal.js'
@@ -40,7 +41,7 @@ type Props = { navigation: NavigationProp<'controlPanel'> }
 
 const SweepableCurrencyCodes = Object.keys(SPECIAL_CURRENCY_INFO).filter(currencyCode => SPECIAL_CURRENCY_INFO[currencyCode].isPrivateKeySweepable)
 
-export function ControlPanel(props: Props) {
+const ControlPanelComponent = (props: Props) => {
   const { navigation } = props
   const state: any = navigation.state
   const { isDrawerOpen } = state
@@ -430,3 +431,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     zIndex: 1
   }
 }))
+
+export const ControlPanel = wrap(ControlPanelComponent)

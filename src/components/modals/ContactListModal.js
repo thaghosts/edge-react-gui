@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import { Image } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 import { sprintf } from 'sprintf-js'
 
 import s from '../../locales/strings.js'
 import { type GuiContact } from '../../types/types.js'
+import { Image } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { SelectableRow } from '../themed/SelectableRow'
 import { ListModal } from './ListModal.js'

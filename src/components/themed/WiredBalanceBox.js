@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableOpacity } from 'react-native'
 
 import { toggleAccountBalanceVisibility } from '../../actions/WalletListActions.js'
 import { formatNumber } from '../../locales/intl.js'
 import s from '../../locales/strings.js'
 import { connect } from '../../types/reactRedux.js'
 import { type GuiExchangeRates } from '../../types/types.js'
+import { TouchableOpacity } from '../../types/wrappedReactNative.js'
 import { getFiatSymbol, getTotalFiatAmountFromExchangeRates } from '../../util/utils.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'

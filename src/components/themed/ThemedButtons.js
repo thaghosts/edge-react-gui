@@ -1,10 +1,11 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import { cacheStyles } from 'react-native-patina'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
+import { Text, TouchableHighlight, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { unpackEdges } from '../../util/edges.js'
 import { type Theme, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
@@ -42,7 +43,7 @@ type ColorProps = {
 type SquareButtonProps = Props & ColorProps
 type RadioButtonProps = Props & { value: boolean, right?: boolean }
 
-export function ClickableText(props: Props) {
+const ClickableTextComponent = (props: Props) => {
   const { children, label, onPress } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -57,7 +58,7 @@ export function ClickableText(props: Props) {
   )
 }
 
-export function SquareButton(props: SquareButtonProps) {
+const SquareButtonComponent = (props: SquareButtonProps) => {
   const { children, label, color, onPress } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -71,7 +72,7 @@ export function SquareButton(props: SquareButtonProps) {
   )
 }
 
-export function ButtonBox(props: Props) {
+const ButtonBoxComponent = (props: Props) => {
   const { children, onPress } = props
   const theme = useTheme()
 
@@ -82,7 +83,7 @@ export function ButtonBox(props: Props) {
   )
 }
 
-export function Radio(props: RadioButtonProps) {
+const RadioComponent = (props: RadioButtonProps) => {
   const { children, value, right, onPress } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -99,7 +100,7 @@ export function Radio(props: RadioButtonProps) {
   )
 }
 
-export function RadioIcon(props: { value: boolean }) {
+const RadioIconComponent = (props: { value: boolean }) => {
   const { value } = props
   const theme = useTheme()
 
@@ -112,7 +113,7 @@ export function RadioIcon(props: { value: boolean }) {
   return icon
 }
 
-export function RightChevronButton(props: { text: string, onPress: () => void, paddingRem?: number[] | number }) {
+const RightChevronButtonComponent = (props: { text: string, onPress: () => void, paddingRem?: number[] | number }) => {
   const { text, onPress, paddingRem = 0 } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -209,3 +210,10 @@ const getStyles = cacheStyles((theme: Theme) => {
     }
   }
 })
+
+export const ClickableText = wrap(ClickableTextComponent)
+export const SquareButton = wrap(SquareButtonComponent)
+export const ButtonBox = wrap(ButtonBoxComponent)
+export const Radio = wrap(RadioComponent)
+export const RadioIcon = wrap(RadioIconComponent)
+export const RightChevronButton = wrap(RightChevronButtonComponent)

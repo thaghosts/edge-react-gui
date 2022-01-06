@@ -2,9 +2,9 @@
 
 import { BlurView } from '@react-native-community/blur'
 import * as React from 'react'
-import { type ViewStyle, StyleSheet } from 'react-native'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 
+import { type ViewStyle, StyleSheet } from '../../types/wrappedReactNative.js'
 import { packEdges, unpackEdges } from '../../util/edges.js'
 import { useTheme } from '../services/ThemeContext.js'
 
@@ -25,6 +25,7 @@ type Props<T> = {
 /**
  * The Airship modal, but connected to our theming system.
  */
+// ASK eli about <T> VVV
 export function ThemedModal<T>(props: Props<T>) {
   const { bridge, children = null, flexDirection, iconRem = 0, justifyContent, onCancel } = props
   const paddingRem = unpackEdges(props.paddingRem ?? 1)

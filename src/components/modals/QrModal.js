@@ -2,10 +2,10 @@
 
 import { BlurView } from '@react-native-community/blur'
 import * as React from 'react'
-import { StyleSheet } from 'react-native'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 
 import { useWindowSize } from '../../hooks/useWindowSize.js'
+import { StyleSheet } from '../../types/wrappedReactNative.js'
 import { useTheme } from '../services/ThemeContext.js'
 import { QrCode } from '../themed/QrCode.js'
 

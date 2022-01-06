@@ -1,12 +1,13 @@
 // @flow
 
 import { Shape, Surface, Transform } from '@react-native-community/art'
+import { wrap } from 'cavy'
 import qrcodeGenerator from 'qrcode-generator'
 import * as React from 'react'
-import { ActivityIndicator, TouchableWithoutFeedback, View } from 'react-native'
 import Animated, { useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
 
 import { useState } from '../../types/reactHooks'
+import { ActivityIndicator, TouchableWithoutFeedback, View } from '../../types/wrappedReactNative.js'
 import { fixSides, mapSides, sidesToMargin } from '../../util/sides.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext'
 
@@ -17,7 +18,7 @@ type Props = {|
   onPress?: () => void
 |}
 
-export function QrCode(props: Props) {
+const QrCodeComponent = (props: Props) => {
   const theme = useTheme()
   const styles = getStyles(theme)
   const { data, cellsPadding = 1, marginRem, onPress } = props
@@ -86,3 +87,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     backgroundColor: theme.qrBackgroundColor
   }
 }))
+
+export const QrCode = wrap(QrCodeComponent)

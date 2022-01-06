@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
-import { Image, View } from 'react-native'
 
+import { Image, View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { Tile } from './Tile.js'
 

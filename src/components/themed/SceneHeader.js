@@ -1,8 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import { StyleSheet, View } from 'react-native'
 
+import { StyleSheet, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
 

@@ -1,10 +1,11 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { Pressable, View } from 'react-native'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 import s from '../../locales/strings.js'
+import { Pressable, View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
 import { OutlinedTextInput } from './OutlinedTextInput.js'
@@ -20,7 +21,7 @@ type Props = {
   searchValue: string
 }
 
-export function ManageTokensHeader(props: Props) {
+const ManageTokensHeaderComponent = (props: Props) => {
   const { currencyCode, walletName, walletId, changeSearchValue, onSelectWallet, searchValue } = props
 
   const theme = useTheme()
@@ -72,3 +73,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     marginRight: theme.rem(1)
   }
 }))
+
+export const ManageTokensHeader = wrap(ManageTokensHeaderComponent)

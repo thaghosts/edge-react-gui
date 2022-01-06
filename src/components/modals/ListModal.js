@@ -1,11 +1,11 @@
 // @flow
 
 import * as React from 'react'
-import { FlatList, Keyboard } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import { useFilter } from '../../hooks/useFilter.js'
 import { useState } from '../../types/reactHooks.js'
+import { FlatList, Keyboard } from '../../types/wrappedReactNative.js'
 import { ModalCloseArrow, ModalTitle } from '../themed/ModalParts.js'
 import { OutlinedTextInput } from '../themed/OutlinedTextInput.js'
 import { ThemedModal } from '../themed/ThemedModal.js'

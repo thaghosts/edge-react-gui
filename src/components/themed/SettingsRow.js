@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react'
-import { ActivityIndicator, Text, TouchableHighlight } from 'react-native'
 
 import { usePendingPress } from '../../hooks/usePendingPress.js'
+import { ActivityIndicator, Text, TouchableHighlight } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 
 type OwnProps = {

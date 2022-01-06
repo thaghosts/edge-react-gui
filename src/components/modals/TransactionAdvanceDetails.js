@@ -2,12 +2,12 @@
 
 import type { EdgeTransaction } from 'edge-core-js'
 import React, { PureComponent } from 'react'
-import { Linking, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import { getDeviceName } from 'react-native-device-info'
 import SafariView from 'react-native-safari-view'
 
 import s from '../../locales/strings.js'
+import { Linking, Platform, ScrollView, StyleSheet, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText.js'
 import { ModalCloseArrow } from '../themed/ModalParts.js'

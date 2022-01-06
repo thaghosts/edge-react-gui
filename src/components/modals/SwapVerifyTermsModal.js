@@ -1,12 +1,13 @@
 // @flow
 
+import { wrap } from 'cavy'
 import { type EdgeSwapConfig, type EdgeSwapInfo } from 'edge-core-js/types'
 import * as React from 'react'
-import { Image, Linking, Text, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import { swapPluginIcons } from '../../assets/images/exchange'
 import s from '../../locales/strings.js'
+import { Image, Linking, Text, View } from '../../types/wrappedReactNative.js'
 import { Airship } from '../services/AirshipInstance.js'
 import { cacheStyles, useTheme } from '../services/ThemeContext'
 import { MainButton } from '../themed/MainButton'
@@ -65,7 +66,7 @@ type Props = {
   uris: TermsUri
 }
 
-function SwapVerifyTermsModal(props: Props) {
+const SwapVerifyTermsModal = (props: Props) => {
   const { bridge, swapInfo, uris } = props
   const { displayName, pluginId } = swapInfo
   const { termsUri, privacyUri, kycUri } = uris
@@ -124,3 +125,4 @@ const getStyles = cacheStyles(theme => ({
     width: theme.rem(1.75)
   }
 }))
+export const SwapVerifyTermsModalModal = wrap(SwapVerifyTermsModal)

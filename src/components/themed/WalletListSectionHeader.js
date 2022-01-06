@@ -1,12 +1,13 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { View } from 'react-native'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText.js'
 
-export function WalletListSectionHeader(props: { title: string }) {
+const WalletListSectionHeaderComponent = (props: { title: string }) => {
   const styles = getStyles(useTheme())
   return (
     <View style={styles.container}>
@@ -23,3 +24,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     fontSize: theme.rem(0.75)
   }
 }))
+
+export const WalletListSectionHeader = wrap(WalletListSectionHeaderComponent)

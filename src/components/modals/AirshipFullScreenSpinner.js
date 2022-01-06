@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from 'react'
-import { ActivityIndicator, Animated, StyleSheet, Text, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import { THEME } from '../../theme/variables/airbitz.js'
+import { ActivityIndicator, Animated, StyleSheet, Text, View } from '../../types/wrappedReactNative.js'
 import { scale } from '../../util/scaling.js'
 import { Airship } from '../services/AirshipInstance.js'
 

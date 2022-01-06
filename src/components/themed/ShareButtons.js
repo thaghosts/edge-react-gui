@@ -1,10 +1,11 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { TouchableOpacity, View } from 'react-native'
 
 import { Fontello } from '../../assets/vector/index.js'
 import s from '../../locales/strings'
+import { TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText.js'
 
@@ -14,7 +15,7 @@ export type Props = {
   shareViaShare: () => void
 }
 
-export function ShareButtons(props: Props) {
+const ShareButtonsComponent = (props: Props) => {
   const { copyToClipboard, shareViaShare, fioAddressModal } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -62,3 +63,4 @@ const getStyles = cacheStyles((theme: Theme) => ({
     fontSize: theme.rem(0.75)
   }
 }))
+export const ShareButtons = wrap(ShareButtonsComponent)

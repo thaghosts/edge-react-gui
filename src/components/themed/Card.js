@@ -1,8 +1,9 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { View } from 'react-native'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { unpackEdges } from '../../util/edges'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 
@@ -58,4 +59,4 @@ const getStyles = cacheStyles((theme: Theme) => ({
   }
 }))
 
-export const Card = withTheme(CardComponent)
+export const Card = wrap(withTheme(CardComponent))

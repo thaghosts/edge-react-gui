@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableHighlight, TouchableOpacity, View } from 'react-native'
 
 import { Gradient } from '../../modules/UI/components/Gradient/Gradient.ui'
+import { TouchableHighlight, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { unpackEdges } from '../../util/edges'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 

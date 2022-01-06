@@ -3,7 +3,6 @@
 import { bns } from 'biggystring'
 import { asMaybeNoAmountSpecifiedError } from 'edge-core-js'
 import * as React from 'react'
-import { TouchableOpacity, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import { sprintf } from 'sprintf-js'
 
@@ -14,6 +13,7 @@ import { getDisplayDenomination, getExchangeDenomination } from '../../selectors
 import { convertCurrencyFromExchangeRates, convertNativeToExchangeRateDenomination, getExchangeRate } from '../../selectors/WalletSelectors.js'
 import { connect } from '../../types/reactRedux.js'
 import type { GuiCurrencyInfo } from '../../types/types.js'
+import { TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { convertTransactionFeeToDisplayFee, DECIMAL_PRECISION, getDenomFromIsoCode } from '../../util/utils.js'
 import { ExchangeRate } from '../common/ExchangeRate.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'

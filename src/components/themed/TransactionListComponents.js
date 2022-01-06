@@ -1,10 +1,11 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { ActivityIndicator, View } from 'react-native'
 
 import { Gradient } from '../../modules/UI/components/Gradient/Gradient.ui.js'
 import { connect } from '../../types/reactRedux.js'
+import { ActivityIndicator, View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText.js'
 import { TransactionListTop } from '../themed/TransactionListTop.js'
@@ -35,7 +36,7 @@ function TopComponent(props: Props) {
   )
 }
 
-export function EmptyLoader() {
+const EmptyLoaderComponent = () => {
   const theme = useTheme()
   const styles = getStyles(theme)
   return (
@@ -45,7 +46,7 @@ export function EmptyLoader() {
   )
 }
 
-export function SectionHeader(props: { title?: string }) {
+const SectionHeaderComponent = (props: { title?: string }) => {
   const styles = getStyles(useTheme())
   return (
     <Gradient style={styles.headerContainer}>
@@ -54,7 +55,7 @@ export function SectionHeader(props: { title?: string }) {
   )
 }
 
-export function SectionHeaderCentered(props: { title?: string, loading: boolean }) {
+const SectionHeaderCenteredComponent = (props: { title?: string, loading: boolean }) => {
   const theme = useTheme()
   const styles = getStyles(theme)
   return (
@@ -97,3 +98,7 @@ export const Top = connect<StateProps, {}, OwnProps>(
   }),
   dispatch => ({})
 )(TopComponent)
+
+export const EmptyLoader = wrap(EmptyLoaderComponent)
+export const SectionHeader = wrap(SectionHeaderComponent)
+export const SectionHeaderCentered = wrap(SectionHeaderCenteredComponent)

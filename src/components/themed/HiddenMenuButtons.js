@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 import { cacheStyles } from 'react-native-patina'
 
+import { View } from '../../types/wrappedReactNative.js'
 import type { ThemeProps } from '../services/ThemeContext'
 import { type Theme, withTheme } from '../services/ThemeContext.js'
 import { SquareButton } from './ThemedButtons'

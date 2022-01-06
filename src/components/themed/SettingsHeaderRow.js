@@ -1,8 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import { Text, View } from 'react-native'
 
+import { Text, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 
 type OwnProps = {

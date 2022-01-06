@@ -2,7 +2,6 @@
 
 import { type EdgeAccount } from 'edge-core-js'
 import * as React from 'react'
-import { Platform, ScrollView, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import { passwordReminderSuccess, postponePasswordReminder, requestChangePassword } from '../../actions/PasswordReminderActions.js'
@@ -10,6 +9,7 @@ import { CHANGE_PASSWORD } from '../../constants/SceneKeys.js'
 import s from '../../locales/strings.js'
 import { connect } from '../../types/reactRedux.js'
 import { Actions } from '../../types/routerTypes.js'
+import { Platform, ScrollView, View } from '../../types/wrappedReactNative.js'
 import { showToast } from '../services/AirshipInstance.js'
 import { type ThemeProps, withTheme } from '../services/ThemeContext.js'
 import { EdgeTextField } from './EdgeTextField.js'

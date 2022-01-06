@@ -1,10 +1,11 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { ActivityIndicator, Text, TouchableOpacity } from 'react-native'
 import { cacheStyles } from 'react-native-patina'
 
 import { usePendingPress } from '../../hooks/usePendingPress.js'
+import { ActivityIndicator, Text, TouchableOpacity } from '../../types/wrappedReactNative.js'
 import { fixSides, mapSides, sidesToMargin, sidesToPadding } from '../../util/sides.js'
 import { type Theme, useTheme } from '../services/ThemeContext.js'
 
@@ -44,7 +45,7 @@ type Props = {|
 /**
  * A stand-alone button to perform the primary action in a modal or scene.
  */
-export function MainButton(props: Props) {
+const MainButtonComponent = (props: Props) => {
   const { alignSelf = 'auto', children, disabled = false, label, marginRem, onPress, type = 'primary', paddingRem, spinner = false } = props
 
   // `onPress` promise logic:
@@ -120,3 +121,5 @@ const getStyles = cacheStyles((theme: Theme) => {
     }
   }
 })
+
+export const MainButton = wrap(MainButtonComponent)

@@ -1,8 +1,9 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { Platform, StyleSheet, Text } from 'react-native'
 
+import { Platform, StyleSheet, Text } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 
 type Props = {|
@@ -10,7 +11,7 @@ type Props = {|
   style?: StyleSheet.Styles
 |}
 
-export function TitleText(props: Props) {
+const TitleTextComponent = (props: Props) => {
   const { children, style, ...otherProps } = props
   const theme = useTheme()
   const { text, androidAdjust } = getStyles(theme)
@@ -40,3 +41,4 @@ const getStyles = cacheStyles((theme: Theme) => ({
     top: -1
   }
 }))
+export const TitleText = wrap(TitleTextComponent)

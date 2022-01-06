@@ -1,11 +1,11 @@
 // @flow
 
 import * as React from 'react'
-import { Platform, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import s from '../../locales/strings.js'
 import { useState } from '../../types/reactHooks.js'
+import { Platform, View } from '../../types/wrappedReactNative.js'
 import { showError } from '../services/AirshipInstance.js'
 import { MainButton } from '../themed/MainButton.js'
 import { ModalCloseArrow, ModalMessage, ModalTitle } from '../themed/ModalParts.js'

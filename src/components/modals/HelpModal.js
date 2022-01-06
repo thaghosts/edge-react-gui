@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react'
-import { Image, Keyboard, Linking, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import { getBuildNumber, getVersion } from 'react-native-device-info'
 import { WebView } from 'react-native-webview'
@@ -10,6 +9,7 @@ import edgeLogo from '../../assets/images/edgeLogo/Edge_logo_L.png'
 import { Fontello } from '../../assets/vector'
 import s from '../../locales/strings.js'
 import { PLATFORM } from '../../theme/variables/platform.js'
+import { Image, Keyboard, Linking, View } from '../../types/wrappedReactNative.js'
 import { Airship } from '../services/AirshipInstance.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText'

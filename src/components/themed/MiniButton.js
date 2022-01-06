@@ -1,10 +1,11 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { ActivityIndicator, Text, TouchableOpacity } from 'react-native'
 import { cacheStyles } from 'react-native-patina'
 
 import { usePendingPress } from '../../hooks/usePendingPress.js'
+import { ActivityIndicator, Text, TouchableOpacity } from '../../types/wrappedReactNative.js'
 import { fixSides, mapSides, sidesToMargin } from '../../util/sides.js'
 import { type Theme, useTheme } from '../services/ThemeContext.js'
 
@@ -33,7 +34,7 @@ type Props = {|
  * A small button used for max sends and such.
  * Visually, this happens to look like a 5/8 scale secondary button.
  */
-export function MiniButton(props: Props) {
+const MiniButtonComponent = (props: Props) => {
   const { alignSelf = 'auto', disabled = false, label, marginRem, onPress } = props
 
   // `onPress` promise logic:
@@ -87,3 +88,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     marginHorizontal: theme.rem(0.5 * miniScale)
   }
 }))
+
+export const MiniButton = wrap(MiniButtonComponent)

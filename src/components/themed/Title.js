@@ -1,8 +1,9 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { View } from 'react-native'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
 
@@ -14,7 +15,7 @@ type Props = {
   text: string
 }
 
-export function Title(props: Props): React.Node {
+const TitleComponent = (props: Props): React.Node => {
   const { leftIcon, text, rightIcon, styleLeftIcon, styleRightIcon } = props
 
   const theme = useTheme()
@@ -51,3 +52,4 @@ const getStyles = cacheStyles((theme: Theme) => ({
     color: theme.primaryText
   }
 }))
+export const Title = wrap(TitleComponent)

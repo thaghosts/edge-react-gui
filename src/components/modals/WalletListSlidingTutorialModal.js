@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from 'react'
-import { Image } from 'react-native'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 
 import s from '../../locales/strings.js'
+import { Image } from '../../types/wrappedReactNative.js'
 import { useTheme } from '../services/ThemeContext.js'
 import { MainButton } from '../themed/MainButton.js'
 import { ModalTitle } from '../themed/ModalParts.js'

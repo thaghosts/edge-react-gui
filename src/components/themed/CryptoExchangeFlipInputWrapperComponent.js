@@ -2,13 +2,13 @@
 
 import { bns } from 'biggystring'
 import * as React from 'react'
-import { ActivityIndicator, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 
 import { formatNumber } from '../../locales/intl.js'
 import s from '../../locales/strings.js'
 import { connect } from '../../types/reactRedux.js'
 import type { GuiCurrencyInfo, GuiWallet } from '../../types/types.js'
+import { ActivityIndicator, View } from '../../types/wrappedReactNative.js'
 import { convertNativeToDenomination } from '../../util/utils'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { Card } from './Card'

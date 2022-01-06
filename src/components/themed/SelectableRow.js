@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 import IonIcon from 'react-native-vector-icons/Ionicons'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { ClickableRow } from './ClickableRow'
 import { EdgeText } from './EdgeText'

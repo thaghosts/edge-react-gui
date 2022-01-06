@@ -2,10 +2,10 @@
 
 import DateTimePicker from '@react-native-community/datetimepicker'
 import * as React from 'react'
-import { Appearance, Platform, Text, TouchableOpacity } from 'react-native'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 
 import s from '../../locales/strings.js'
+import { Appearance, Platform, Text, TouchableOpacity } from '../../types/wrappedReactNative.js'
 import { type ThemeProps, withTheme } from '../services/ThemeContext.js'
 
 export type Props = {

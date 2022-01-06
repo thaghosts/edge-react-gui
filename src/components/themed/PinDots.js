@@ -1,11 +1,12 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { View } from 'react-native'
 
+import { View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 
-export function PinDots(props: { pinLength: number, maxLength: number }) {
+const PinDotsComponent = (props: { pinLength: number, maxLength: number }) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
@@ -41,3 +42,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     backgroundColor: theme.iconTappable
   }
 }))
+
+export const PinDots = wrap(PinDotsComponent)

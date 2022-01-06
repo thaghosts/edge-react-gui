@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react'
-import { Linking, TouchableOpacity, View } from 'react-native'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 import { RNCamera } from 'react-native-camera'
 // $FlowFixMe
@@ -15,6 +14,7 @@ import s from '../../locales/strings.js'
 import type { PermissionStatus } from '../../reducers/PermissionsReducer'
 import { useEffect } from '../../types/reactHooks.js'
 import { connect } from '../../types/reactRedux.js'
+import { Linking, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { QrPeephole } from '../common/QrPeephole.js'
 import { TextInputModal } from '../modals/TextInputModal.js'
 import { Airship, showError, showWarning } from '../services/AirshipInstance'

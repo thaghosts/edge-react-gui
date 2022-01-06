@@ -2,7 +2,6 @@
 
 import type { EdgeCurrencyWallet } from 'edge-core-js'
 import * as React from 'react'
-import { View } from 'react-native'
 
 import { refreshAllFioAddresses } from '../../actions/FioAddressActions.js'
 import { FIO_ADDRESS_SETTINGS } from '../../constants/SceneKeys.js'
@@ -13,6 +12,7 @@ import { getSelectedWallet } from '../../selectors/WalletSelectors.js'
 import { connect } from '../../types/reactRedux.js'
 import { Actions } from '../../types/routerTypes.js'
 import type { FioAddress, FioRequest, GuiWallet } from '../../types/types'
+import { View } from '../../types/wrappedReactNative.js'
 import { AddressModal } from '../modals/AddressModal'
 import { ButtonsModal } from '../modals/ButtonsModal'
 import { TextInputModal } from '../modals/TextInputModal.js'

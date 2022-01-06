@@ -2,10 +2,10 @@
 
 import Clipboard from '@react-native-community/clipboard'
 import * as React from 'react'
-import { ActivityIndicator, TouchableWithoutFeedback, View } from 'react-native'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 import s from '../../locales/strings.js'
+import { ActivityIndicator, TouchableWithoutFeedback, View } from '../../types/wrappedReactNative.js'
 import { showToast } from '../services/AirshipInstance.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'

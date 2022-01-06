@@ -1,9 +1,9 @@
 // @flow
 
 import * as React from 'react'
-import { StyleSheet, View } from 'react-native'
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons'
 
+import { StyleSheet, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext'
 import { EdgeText } from './EdgeText'
 

@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react'
-import { Dimensions, Keyboard, Platform, View } from 'react-native'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
 import { Fontello } from '../../assets/vector/index.js'
@@ -9,6 +8,7 @@ import { REQUEST, SEND, TRANSACTION_LIST } from '../../constants/SceneKeys.js'
 import { getSpecialCurrencyInfo, WALLET_LIST_OPTIONS_ICON } from '../../constants/WalletAndCurrencyConstants.js'
 import { Actions } from '../../types/routerTypes.js'
 import type { GuiWallet } from '../../types/types.js'
+import { Dimensions, Keyboard, Platform, View } from '../../types/wrappedReactNative.js'
 import { getCurrencyIcon } from '../../util/CurrencyInfoHelpers.js'
 import { WalletListMenuModal } from '../modals/WalletListMenuModal.js'
 import { Airship } from '../services/AirshipInstance.js'

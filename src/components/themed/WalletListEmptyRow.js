@@ -1,10 +1,10 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableOpacity, View } from 'react-native'
 import { SwipeRow } from 'react-native-swipe-list-view'
 
 import { WALLET_LIST_OPTIONS_ICON } from '../../constants/WalletAndCurrencyConstants.js'
+import { TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
 import { WalletListRow } from './WalletListRow.js'

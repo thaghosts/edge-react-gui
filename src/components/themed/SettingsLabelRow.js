@@ -1,8 +1,8 @@
 // @flow
 
 import * as React from 'react'
-import { Text } from 'react-native'
 
+import { Text } from '../../types/wrappedReactNative.js'
 import { type ThemeProps, withTheme } from '../services/ThemeContext.js'
 import { SettingsRow } from './SettingsRow.js'
 

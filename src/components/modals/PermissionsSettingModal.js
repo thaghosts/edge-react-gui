@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import { AppState } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import { check, openSettings } from 'react-native-permissions'
 import { sprintf } from 'sprintf-js'
 
 import s from '../../locales/strings.js'
 import { useEffect } from '../../types/reactHooks.js'
+import { AppState } from '../../types/wrappedReactNative.js'
 import { showError } from '../services/AirshipInstance.js'
 import { checkIfDenied } from '../services/PermissionsManager.js'
 import { MainButton } from '../themed/MainButton.js'

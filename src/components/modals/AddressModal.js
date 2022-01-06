@@ -2,7 +2,6 @@
 
 import type { EdgeAccount, EdgeCurrencyConfig, EdgeCurrencyWallet } from 'edge-core-js'
 import * as React from 'react'
-import { ActivityIndicator, FlatList, Image, TouchableWithoutFeedback, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import { sprintf } from 'sprintf-js'
 
@@ -16,6 +15,7 @@ import { FormattedText as Text } from '../../modules/UI/components/FormattedText
 import { connect } from '../../types/reactRedux.js'
 import { ResolutionError, ResolutionErrorCode } from '../../types/ResolutionError.js'
 import type { FioAddress, FlatListItem } from '../../types/types.js'
+import { ActivityIndicator, FlatList, Image, TouchableWithoutFeedback, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { MainButton } from '../themed/MainButton.js'
 import { ModalCloseArrow, ModalTitle } from '../themed/ModalParts.js'

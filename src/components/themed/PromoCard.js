@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 
@@ -10,6 +9,7 @@ import { linkReferralWithCurrencies } from '../../actions/WalletListActions.js'
 import { connect } from '../../types/reactRedux.js'
 import { type AccountReferral } from '../../types/ReferralTypes.js'
 import { type MessageTweak } from '../../types/TweakTypes.js'
+import { TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { type TweakSource, bestOfMessages } from '../../util/ReferralHelpers.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'

@@ -1,12 +1,12 @@
 // @flow
 
 import * as React from 'react'
-import { Image, Linking, Platform, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import { getBundleId } from 'react-native-device-info'
 
 import edgeLogo from '../../assets/images/edgeLogo/Edge_logo_Icon.png'
 import s from '../../locales/strings.js'
+import { Image, Linking, Platform, View } from '../../types/wrappedReactNative.js'
 import { cacheStyles, useTheme } from '../services/ThemeContext'
 import { MainButton } from '../themed/MainButton'
 import { ModalCloseArrow, ModalMessage, ModalTitle } from '../themed/ModalParts'

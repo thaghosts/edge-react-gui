@@ -1,28 +1,29 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
 import { cacheStyles } from 'react-native-patina'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
+import { Text, TouchableOpacity } from '../../types/wrappedReactNative.js'
 import { unpackEdges } from '../../util/edges'
 import { type Theme, useTheme } from '../services/ThemeContext.js'
 
-export function ModalTitle(props: { children: React.Node, center?: boolean, paddingRem?: number[] | number }) {
+const ModalTitleComponent = (props: { children: React.Node, center?: boolean, paddingRem?: number[] | number }) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
   return <Text style={[styles.titleText, props.center ? styles.titleCenter : null, paddingStyles(props.paddingRem, theme)]}>{props.children}</Text>
 }
 
-export function ModalMessage(props: { children: React.Node, paddingRem?: number[] | number, isWarning?: boolean }) {
+const ModalMessageComponent = (props: { children: React.Node, paddingRem?: number[] | number, isWarning?: boolean }) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
   return <Text style={[styles.messageText, paddingStyles(props.paddingRem, theme), props.isWarning && styles.warningText]}>{props.children}</Text>
 }
 
-export function ModalCloseArrow(props: { onPress: () => void }) {
+const ModalCloseArrowComponent = (props: { onPress: () => void }) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
@@ -69,3 +70,7 @@ const getStyles = cacheStyles((theme: Theme) => ({
     textAlign: 'left'
   }
 }))
+
+export const ModalTitle = wrap(ModalTitleComponent)
+export const ModalMessage = wrap(ModalMessageComponent)
+export const ModalCloseArrow = wrap(ModalCloseArrowComponent)

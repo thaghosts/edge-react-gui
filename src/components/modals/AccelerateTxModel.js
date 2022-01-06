@@ -2,7 +2,6 @@
 
 import type { EdgeCurrencyWallet, EdgeDenomination, EdgeSpendInfo, EdgeTransaction } from 'edge-core-js'
 import React, { PureComponent } from 'react'
-import { ActivityIndicator, Text, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 
 import { playSendSound } from '../../actions/SoundActions.js'
@@ -14,6 +13,7 @@ import { connect } from '../../types/reactRedux.js'
 import { Actions } from '../../types/routerTypes.js'
 import type { GuiWallet } from '../../types/types.js'
 import { type GuiExchangeRates } from '../../types/types.js'
+import { ActivityIndicator, Text, View } from '../../types/wrappedReactNative.js'
 import { convertTransactionFeeToDisplayFee } from '../../util/utils.js'
 import { showError, showToast, showWarning } from '../services/AirshipInstance.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'

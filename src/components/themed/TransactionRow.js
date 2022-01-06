@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { sprintf } from 'sprintf-js'
 
 import s from '../../locales/strings'
 import type { TransactionListTx } from '../../types/types.js'
+import { View } from '../../types/wrappedReactNative.js'
 import { splitTransactionCategory } from '../../util/utils'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { ClickableRow } from './ClickableRow'

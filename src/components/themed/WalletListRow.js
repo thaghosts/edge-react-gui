@@ -2,10 +2,10 @@
 
 import type { EdgeCurrencyInfo } from 'edge-core-js'
 import * as React from 'react'
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 
 import { Gradient } from '../../modules/UI/components/Gradient/Gradient.ui.js'
 import { connect } from '../../types/reactRedux.js'
+import { ActivityIndicator, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { getCurrencyInfo } from '../../util/utils'
 import { type Theme, type ThemeProps, cacheStyles, useTheme, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'

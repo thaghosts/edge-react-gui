@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableOpacity, View } from 'react-native'
 import { isIPhoneX } from 'react-native-safe-area-view'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 
 import { Fontello } from '../../assets/vector/index.js'
 import s from '../../locales/strings.js'
 import { type NavigationProp, type ParamList, Actions } from '../../types/routerTypes.js'
+import { TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
 

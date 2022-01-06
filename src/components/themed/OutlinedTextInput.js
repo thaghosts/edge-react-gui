@@ -1,11 +1,11 @@
 // @flow
 
 import * as React from 'react'
-import { Platform, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withDelay, withTiming } from 'react-native-reanimated'
 import AntDesignIcon from 'react-native-vector-icons/AntDesign'
 
 import { useCallback, useEffect, useImperativeHandle, useRef, useState } from '../../types/reactHooks.js'
+import { Platform, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from '../../types/wrappedReactNative.js'
 import { fixSides, mapSides, sidesToMargin } from '../../util/sides.js'
 import { cacheStyles, useTheme } from '../services/ThemeContext.js'
 

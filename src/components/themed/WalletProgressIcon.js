@@ -1,11 +1,11 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import FastImage from 'react-native-fast-image'
 
 import { connect } from '../../types/reactRedux.js'
+import { View } from '../../types/wrappedReactNative.js'
 import { getCurrencyIcon } from '../../util/CurrencyInfoHelpers.js'
 import { type ThemeProps, withTheme } from '../services/ThemeContext.js'
 

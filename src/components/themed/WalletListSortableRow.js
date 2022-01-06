@@ -2,7 +2,6 @@
 
 import { bns } from 'biggystring'
 import * as React from 'react'
-import { ActivityIndicator, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import Ionicon from 'react-native-vector-icons/Ionicons'
 
@@ -13,6 +12,7 @@ import { getDisplayDenominationFromSettings } from '../../selectors/Denomination
 import { calculateWalletFiatBalanceWithoutState } from '../../selectors/WalletSelectors.js'
 import { connect } from '../../types/reactRedux.js'
 import { type GuiExchangeRates, type GuiWallet } from '../../types/types.js'
+import { ActivityIndicator, TouchableOpacity, View } from '../../types/wrappedReactNative.js'
 import { DECIMAL_PRECISION, decimalOrZero, getFiatSymbol, truncateDecimals } from '../../util/utils'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'

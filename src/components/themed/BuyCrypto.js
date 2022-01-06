@@ -1,7 +1,6 @@
 // @flow
 
 import * as React from 'react'
-import { View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { sprintf } from 'sprintf-js'
 
@@ -10,6 +9,7 @@ import { SPECIAL_CURRENCY_INFO } from '../../constants/WalletAndCurrencyConstant
 import s from '../../locales/strings.js'
 import { connect } from '../../types/reactRedux.js'
 import { Actions } from '../../types/routerTypes.js'
+import { View } from '../../types/wrappedReactNative.js'
 import { type Theme, type ThemeProps, cacheStyles, withTheme } from '../services/ThemeContext.js'
 import { EdgeText } from './EdgeText.js'
 import { ButtonBox } from './ThemedButtons.js'

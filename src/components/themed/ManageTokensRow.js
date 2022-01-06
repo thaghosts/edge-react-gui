@@ -1,12 +1,13 @@
 // @flow
 
+import { wrap } from 'cavy'
 import type { EdgeMetaToken } from 'edge-core-js'
 import * as React from 'react'
-import { Switch, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome'
 
 import { SYNCED_ACCOUNT_DEFAULTS } from '../../modules/Core/Account/settings.js'
+import { Switch, View } from '../../types/wrappedReactNative.js'
 import { noOp } from '../../util/utils.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { WalletListRow } from './WalletListRow'
@@ -21,7 +22,7 @@ export type Props = {
   symbolImage: string
 }
 
-export function ManageTokensRow(props: Props) {
+const ManageTokensRowComponent = (props: Props) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
@@ -78,3 +79,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     alignSelf: 'center'
   }
 }))
+
+export const ManageTokensRow = wrap(ManageTokensRowComponent)

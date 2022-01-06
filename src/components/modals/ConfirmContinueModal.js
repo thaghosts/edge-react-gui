@@ -1,13 +1,13 @@
 // @flow
 
 import * as React from 'react'
-import { TouchableWithoutFeedback, View } from 'react-native'
 import { type AirshipBridge } from 'react-native-airship'
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import s from '../../locales/strings.js'
 import { useState } from '../../types/reactHooks.js'
+import { TouchableWithoutFeedback, View } from '../../types/wrappedReactNative.js'
 import { type Theme, cacheStyles, useTheme } from '../services/ThemeContext.js'
 import { EdgeText } from '../themed/EdgeText.js'
 import { Fade } from '../themed/Fade'

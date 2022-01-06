@@ -2,7 +2,6 @@
 
 import { type EdgeAccount } from 'edge-core-js'
 import * as React from 'react'
-import { RefreshControl } from 'react-native'
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view'
 
 import { selectWallet } from '../../actions/WalletActions.js'
@@ -11,6 +10,7 @@ import { SYNCED_ACCOUNT_DEFAULTS } from '../../modules/Core/Account/settings.js'
 import { calculateWalletFiatBalanceUsingDefaultIsoFiat } from '../../selectors/WalletSelectors.js'
 import { connect } from '../../types/reactRedux.js'
 import type { CreateTokenType, CreateWalletType, CustomTokenInfo, FlatListItem, GuiWallet, MostRecentWallet } from '../../types/types.js'
+import { RefreshControl } from '../../types/wrappedReactNative.js'
 import { getCreateWalletTypes, getCurrencyIcon, getCurrencyInfos } from '../../util/CurrencyInfoHelpers.js'
 import { type FilterDetailsType, alphabeticalSort, checkCurrencyCodes, checkFilterWallet } from '../../util/utils'
 import { WalletListMenuModal } from '../modals/WalletListMenuModal.js'
