@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 
@@ -13,7 +14,7 @@ type Props = {
   bridge: AirshipBridge<void>
 }
 
-export function WalletListSlidingTutorialModal(props: Props) {
+const WalletListSlidingTutorial = (props: Props) => {
   const { bridge } = props
   const theme = useTheme()
 
@@ -32,3 +33,5 @@ export function WalletListSlidingTutorialModal(props: Props) {
     </AirshipModal>
   )
 }
+
+export const WalletListSlidingTutorialModal = wrap(WalletListSlidingTutorial)

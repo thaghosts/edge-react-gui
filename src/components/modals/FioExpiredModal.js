@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 
@@ -8,7 +9,7 @@ import { MainButton } from '../themed/MainButton.js'
 import { ModalCloseArrow, ModalMessage, ModalTitle } from '../themed/ModalParts.js'
 import { ThemedModal } from '../themed/ThemedModal.js'
 
-export function FioExpiredModal(props: { bridge: AirshipBridge<boolean>, fioName: string }) {
+const FioExpired = (props: { bridge: AirshipBridge<boolean>, fioName: string }) => {
   const { bridge, fioName } = props
   const title = `${s.strings.fio_address_confirm_screen_fio_label} ${s.strings.string_expiration}`
 
@@ -22,3 +23,5 @@ export function FioExpiredModal(props: { bridge: AirshipBridge<boolean>, fioName
     </ThemedModal>
   )
 }
+
+export const FioExpiredModal = wrap(FioExpired)

@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import { type EdgePluginMap, type EdgeSwapConfig } from 'edge-core-js/types'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
@@ -25,7 +26,7 @@ type Props = {
  * Allows the user to select one of the enabled exchanges,
  * or none to get the best price.
  */
-export function SwapPreferredModal(props: Props) {
+const SwapPreferred = (props: Props) => {
   const { bridge, exchanges, selected } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -94,3 +95,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     margin: theme.rem(0.5)
   }
 }))
+
+export const SwapPreferredModal = wrap(SwapPreferred)

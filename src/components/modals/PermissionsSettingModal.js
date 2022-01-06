@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 import { check, openSettings } from 'react-native-permissions'
@@ -14,13 +15,13 @@ import { MainButton } from '../themed/MainButton.js'
 import { ModalCloseArrow, ModalMessage } from '../themed/ModalParts.js'
 import { ThemedModal } from '../themed/ThemedModal.js'
 
-export function PermissionsSettingModal(props: {
+const PermissionsSetting = (props: {
   bridge: AirshipBridge<boolean>, // returns true if mandatory and denied
   fullPermision: string,
   mandatory: boolean,
   name: string,
   permission: string
-}) {
+}) => {
   const { bridge, fullPermision, mandatory, name, permission } = props
 
   useEffect(() => {
@@ -56,3 +57,5 @@ export function PermissionsSettingModal(props: {
     </ThemedModal>
   )
 }
+
+export const PermissionsSettingModal = wrap(PermissionsSetting)

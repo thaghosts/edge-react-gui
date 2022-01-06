@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 import { getBuildNumber, getVersion } from 'react-native-device-info'
@@ -26,7 +27,7 @@ const HELP_URIS = {
   site: 'https://edge.app'
 }
 
-export function showHelpModal(): Promise<mixed> {
+const showHelpModal = (): Promise<mixed> => {
   return Airship.show(bridge => <HelpModal bridge={bridge} />)
 }
 
@@ -158,3 +159,4 @@ const getStyles = cacheStyles((theme: Theme) => ({
 }))
 
 const HelpModal = withTheme(HelpModalComponent)
+export const showHelpModalModal = wrap(showHelpModal)

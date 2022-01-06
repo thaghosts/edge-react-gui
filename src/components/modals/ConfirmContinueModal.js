@@ -1,5 +1,5 @@
 // @flow
-
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 import Feather from 'react-native-vector-icons/Feather'
@@ -22,7 +22,7 @@ type Props = {|
   title?: string
 |}
 
-export function ConfirmContinueModal(props: Props) {
+const ConfirmContinue = (props: Props) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
@@ -92,3 +92,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     fontSize: theme.rem(0.75)
   }
 }))
+
+export const ConfirmContinueModal = wrap(ConfirmContinue)

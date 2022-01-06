@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 import IonIcon from 'react-native-vector-icons/Ionicons'
@@ -19,7 +20,7 @@ type Props = {
   contacts: GuiContact[]
 }
 
-export function ContactListModal({ bridge, contactType, contacts, contactName }: Props) {
+const ContactList = ({ bridge, contactType, contacts, contactName }: Props) => {
   const theme = useTheme()
   const styles = getStyles(theme)
 
@@ -76,3 +77,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     marginRight: theme.rem(0.5)
   }
 }))
+
+export const ContactListModal = wrap(ContactList)

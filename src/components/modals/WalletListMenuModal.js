@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import { type EdgeAccount } from 'edge-core-js'
 import React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
@@ -91,7 +92,7 @@ const getWalletOptions = async (params: {
   return result
 }
 
-export function WalletListMenuModal(props: Props) {
+const WalletListMenu = (props: Props) => {
   const { bridge, walletName, walletId, image, currencyCode, isToken } = props
 
   const [options, setOptions] = useState([])
@@ -170,3 +171,5 @@ const getStyles = cacheStyles((theme: Theme) => ({
     color: theme.warningText
   }
 }))
+
+export const WalletListMenuModal = wrap(WalletListMenu)

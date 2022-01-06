@@ -1,6 +1,7 @@
 // @flow
 
 import Clipboard from '@react-native-community/clipboard'
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 
@@ -18,7 +19,7 @@ type Props = {|
   disableCopy?: boolean
 |}
 
-export function RawTextModal(props: Props) {
+const RawText = (props: Props) => {
   const { bridge, body, title, disableCopy = false } = props
 
   const handleCancel = () => bridge.resolve(undefined)
@@ -41,3 +42,5 @@ export function RawTextModal(props: Props) {
     </ThemedModal>
   )
 }
+
+export const RawTextModal = wrap(RawText)

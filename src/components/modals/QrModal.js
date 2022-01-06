@@ -1,6 +1,7 @@
 // @flow
 
 import { BlurView } from '@react-native-community/blur'
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge, AirshipModal } from 'react-native-airship'
 
@@ -14,7 +15,7 @@ type Props = {
   data?: string
 }
 
-export function QrModal(props: Props) {
+const Qr = (props: Props) => {
   const { bridge, data } = props
   const theme = useTheme()
   const windowSize = useWindowSize()
@@ -36,3 +37,5 @@ export function QrModal(props: Props) {
     </AirshipModal>
   )
 }
+
+export const QrModal = wrap(Qr)

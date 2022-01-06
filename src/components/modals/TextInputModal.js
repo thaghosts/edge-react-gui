@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 
@@ -38,7 +39,7 @@ type Props = {|
   maxLength?: number
 |}
 
-export function TextInputModal(props: Props) {
+const TextInput = (props: Props) => {
   const {
     autoCapitalize,
     autoCorrect,
@@ -118,3 +119,5 @@ export function TextInputModal(props: Props) {
     </ThemedModal>
   )
 }
+
+export const TextInputModal = wrap(TextInput)

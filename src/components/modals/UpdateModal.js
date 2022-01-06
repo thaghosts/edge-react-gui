@@ -1,5 +1,6 @@
 // @flow
 
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 import { getBundleId } from 'react-native-device-info'
@@ -17,7 +18,7 @@ type Props = {
   onSkip: () => void
 }
 
-export function UpdateModal(props: Props) {
+const Update = (props: Props) => {
   const { bridge, onSkip } = props
   const theme = useTheme()
   const styles = getStyles(theme)
@@ -58,3 +59,5 @@ const getStyles = cacheStyles(theme => ({
     width: theme.rem(1.75)
   }
 }))
+
+export const UpdateModal = wrap(Update)

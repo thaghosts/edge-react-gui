@@ -1,5 +1,5 @@
 // @flow
-
+import { wrap } from 'cavy'
 import * as React from 'react'
 import { type AirshipBridge } from 'react-native-airship'
 
@@ -32,7 +32,7 @@ export type ButtonInfo = {
  * Build a custom modal component if you need form fields, check boxes,
  * or other interactive elements.
  */
-export function ButtonsModal<Buttons: { [key: string]: ButtonInfo }>(props: {|
+const Buttons = <Buttons: { [key: string]: ButtonInfo }>(props: {|
   bridge: AirshipBridge<$Keys<Buttons> | void>,
   title?: string,
   message?: string,
@@ -41,7 +41,7 @@ export function ButtonsModal<Buttons: { [key: string]: ButtonInfo }>(props: {|
   closeArrow?: boolean,
   disableCancel?: boolean,
   fullScreen?: boolean
-|}) {
+|}) => {
   const { bridge, title, message, children, buttons, closeArrow = false, disableCancel = false, fullScreen = false } = props
 
   const handleCancel = disableCancel ? () => {} : () => bridge.resolve(undefined)
@@ -89,3 +89,5 @@ export function ButtonsModal<Buttons: { [key: string]: ButtonInfo }>(props: {|
     </ThemedModal>
   )
 }
+
+export const ButtonsModal = wrap(Buttons)

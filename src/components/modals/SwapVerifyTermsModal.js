@@ -48,8 +48,8 @@ export async function swapVerifyTerms(swapConfig: EdgeSwapConfig): Promise<boole
   if (swapConfig.userSettings && swapConfig.userSettings.agreedToTerms) {
     return true
   }
-
-  const result = await Airship.show(bridge => <SwapVerifyTermsModal bridge={bridge} swapInfo={swapConfig.swapInfo} uris={uris} />)
+  const WrappedModal = wrap(SwapVerifyTermsModal)
+  const result = await Airship.show(bridge => <WrappedModal bridge={bridge} swapInfo={swapConfig.swapInfo} uris={uris} />)
 
   if (result) {
     await swapConfig.changeUserSettings({ agreedToTerms: true })
