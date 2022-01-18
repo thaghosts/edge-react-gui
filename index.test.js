@@ -1,9 +1,10 @@
+/* eslint-disable no-import-assign */
 // @flow
 
 import 'react-native-gesture-handler'
 import './src/app.js'
 
-import { Tester, TestHookStore } from 'cavy'
+import { Tester, TestHookStore, wrap } from 'cavy'
 import React, { Component } from 'react'
 import * as ReactNative from 'react-native'
 // import * as ReactNative from 'react-native'
@@ -13,8 +14,13 @@ import { name as appName } from './app.json'
 import ExampleSpec from './specs/exampleSpec'
 import { App } from './src/components/App.js'
 
-// export const View = wrap(ReactNative.View)
-Object.keys(ReactNative)
+for (const component in ReactNative) {
+  const firstLetter = component[0]
+  if (firstLetter === firstLetter.toUpperCase()) {
+    // $FlowFixMe
+    ReactNative[component] = wrap(ReactNative[component])
+  }
+}
 
 // See https://github.com/software-mansion/react-native-reanimated/issues/1794#issuecomment-898393331
 Animated.addWhitelistedNativeProps({})
